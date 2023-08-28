@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "DevScene.h"
 #include "GameScene.h"
+#include "EditScene.h"
 
 void SceneManager::Init()
 {
@@ -52,6 +53,10 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		// 게임 씬을 동적 할당합니다.
 		newScene = new GameScene();
 		break;
+
+	case SceneType::EditScene:
+		// 툴 전용 씬을 동적 할당합니다.
+		newScene = new EditScene();
 	}
 
 	// 씬을 교체했으므로 기존 씬은 삭제합니다.
