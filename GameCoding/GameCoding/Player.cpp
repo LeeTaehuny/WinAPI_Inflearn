@@ -1,11 +1,12 @@
 ﻿#include "pch.h"
 #include "Player.h"
 #include "Missile.h"
+#include "LineMesh.h"
 
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "ObjectManager.h"
-
+#include "ResourceManager.h"
 
 
 Player::Player() : Object(ObjectType::Player)
@@ -89,5 +90,14 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	// 간단한 테스트를 위해 플레이어를 원으로 그려줍니다.
-	Utils::DrawCircle(hdc, _pos, 50);
+	// Utils::DrawCircle(hdc, _pos, 50);
+
+	// 리소스 매니저에 특정 키를 입력해 해당되는 mesh를 전달받습니다.
+	const LineMesh* mesh = GET_SINGLE(ResourceManager)->GetLineMesh(L"Player");
+
+	// 만약 전달받은 mesh가 존재한다면?
+	if (mesh)
+	{
+		mesh->Render(hdc, _pos);
+	}
 }
