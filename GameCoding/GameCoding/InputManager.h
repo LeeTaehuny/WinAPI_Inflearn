@@ -22,6 +22,9 @@ enum class KeyType
 	A = 'A',
 	S = 'S',
 	D = 'D',
+
+	Q = 'Q',
+	E = 'E',
 };
 
 // 키의 상태를 열거형으로 선언합니다.

@@ -38,7 +38,7 @@ void Player::Update()
 {
 	// 기존 DevScene에 있던 플레이어 업데이트 정보를 여기에 옮겨줍니다.
 
-		// Update() 함수가 실행되는 간격은 환경(성능)에 따라달라집니다.
+	// Update() 함수가 실행되는 간격은 환경(성능)에 따라달라집니다.
 	// * 즉, 모든 컴퓨터에서 동일한 속도로 이동시키기 위해 이전 프레임에서 현재 프레임까지의 경과시간을 이용합니다.
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
@@ -62,7 +62,6 @@ void Player::Update()
 
 	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
 	{
-		// 거리 = 시간 * 속도이므로 다시 수정해줍니다.
 		// _pos.x -= 1;
 		_pos.y -= deltaTime * _stat.speed;
 	}
@@ -73,15 +72,31 @@ void Player::Update()
 		_pos.y += deltaTime * _stat.speed;
 	}
 
+	// 포탄 발사 실습
+	// * Q와 E를 이용해 포신을 회전시킬 것입니다.
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::Q))
+	{
+		// 반시계 방향으로 각도를 수정해줍니다.
+		_barrelAngle += 10 * deltaTime;
+	}
+
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::E))
+	{
+		// 시계 방향으로 각도를 수정해줍니다.
+		_barrelAngle -= 10 * deltaTime;
+	}
+
 	// * "스페이스바"를 누르는 순간 미사일이 발사되도록 설정합니다.
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
 	{
-		// TODO : 미사일 발사
 		// 미사일을 생성합니다.
 		Missile* missile = GET_SINGLE(ObjectManager)->CreateObject<Missile>();
 
 		// 미사일의 위치를 설정합니다.
-		missile->SetPos(_pos);
+		missile->SetPos(GetFirePos());
+		// 미사일의 발사 각도를 설정합니다.
+		missile->SetAngle(_barrelAngle);
+
 		// 미사일을 오브젝트 목록에 추가합니다.
 		GET_SINGLE(ObjectManager)->Add(missile);
 	}
@@ -100,4 +115,27 @@ void Player::Render(HDC hdc)
 	{
 		mesh->Render(hdc, _pos);
 	}
+
+	// 포신의 색상 변경 (빨간색으로)
+	HPEN pen = CreatePen(BS_SOLID, 5, RGB(255, 0, 0));
+	HPEN oldPen = (HPEN)::SelectObject(hdc, pen);
+
+	// 포신을 그려줍니다.
+	Utils::DrawLine(hdc, _pos, GetFirePos());
+	Utils::DrawCircle(hdc, _pos, 10);
+
+	::SelectObject(hdc, oldPen);
+	::DeleteObject(pen);
+}
+
+Pos Player::GetFirePos()
+{
+	// 발포 위치를 저장하기 위한 변수를 선언합니다.
+	Pos firePos = _pos;
+
+	// 목표 위치 = 현재 위치 + (길이 * 방향);
+	firePos.x += _barrelLength * cos(_barrelAngle);
+	firePos.y += _barrelLength * -sin(_barrelAngle);
+
+	return firePos;
 }

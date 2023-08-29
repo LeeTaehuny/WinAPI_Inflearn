@@ -12,6 +12,13 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
+	// 실제 미사일이 발사될 위치를 받아오는 함수를 선언합니다.
+	Pos GetFirePos();
+
 public:
+	// 포신의 각도를 저장할 변수를 선언합니다.
+	float _barrelAngle = 0.0f;
+	// 포신의 길이를 저장할 변수를 선언합니다.
+	float _barrelLength = 100.0f;
 };
 
