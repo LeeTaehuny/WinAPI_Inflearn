@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <cmath>
+#include <Windows.h>
 
 using int8		= __int8;
 using int16		= __int16;
@@ -17,6 +18,8 @@ struct Vector
 	// 생성자를 선언합니다.
 	Vector() { }
 	Vector(float x, float y) : x(x), y(y) { }
+	// POINT로 만들 수 있도록 생성자 추가
+	Vector(POINT pt) : x(static_cast<float>(pt.x)), y(static_cast<float>(pt.y)) { }
 
 	/** 벡터의 기능들을 구현해줍니다. */
 
@@ -68,7 +71,6 @@ struct Vector
 		y *= value;
 	}
 
-	/************************************************************************/
 	// 벡터의 크기(Length)를 구하는 함수를 정의합니다.
 
 	// 루트 내부의 제곱 연산을 수행하는 함수입니다.
@@ -84,7 +86,7 @@ struct Vector
 	{
 		return ::sqrt(LengthSquared());
 	}
-	/************************************************************************/
+
 	// 정규화 (크기가 1인 벡터로 만들어 반환) 함수를 정의합니다.
 	// * (x, y)가 있을 때 (x / x의 길이, y / y의 길이)로 방향 벡터를 만들 수 있습니다.
 	void Normalize()
@@ -100,7 +102,13 @@ struct Vector
 		x /= length;
 		y /= length;
 	}
-	/************************************************************************/
+
+	// 내적의 결과를 반환하기 위한 함수를 정의합니다.
+	float Dot(Vector other)
+	{
+		// 내적 공식 : x1*x2 + y1*y2
+		return (x * other.x) + (y * other.y);
+	}
 
 	// 값을 저장할 변수를 선언합니다.
 	float x = 0;

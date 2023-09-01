@@ -19,27 +19,26 @@ GameScene::~GameScene()
 
 void GameScene::Init()
 {
-	// 플레이어
-	{
-		// 플레이어를 생성합니다.
-		Player* player = GET_SINGLE(ObjectManager)->CreateObject<Player>();
-
-		// 플레이어의 위치를 초기화합니다.
-		player->SetPos(Pos{ 400, 400 });
-
-		// 플레이어를 오브젝트 목록에 추가합니다.
-		GET_SINGLE(ObjectManager)->Add(player);
-	}
+	// 플레이어 (당분간 사용 X)
+	//{
+	//	// 플레이어를 생성합니다.
+	//	Player* player = GET_SINGLE(ObjectManager)->CreateObject<Player>();
+	//
+	//	// 플레이어의 위치를 초기화합니다.
+	//	player->SetPos(Pos{ 400, 400 });
+	//
+	//	// 플레이어를 오브젝트 목록에 추가합니다.
+	//	GET_SINGLE(ObjectManager)->Add(player);
+	//}
 
 	// 몬스터
-	// * for문을 사용해 5마리의 몬스터를 생성합니다.
-	for(int32 i = 0; i < 5; i++)
 	{
 		// 몬스터를 생성합니다.
 		Monster* monster = GET_SINGLE(ObjectManager)->CreateObject<Monster>();
 
 		// 몬스터의 위치를 초기화합니다.
-		monster->SetPos(Pos{static_cast<float>(i + 1) * 100, 100 });
+		//monster->SetPos(Pos{static_cast<float>(i + 1) * 100, 100 });
+		monster->SetPos(Pos{ 400.0f, 400.0f});
 
 		// 몬스터를 오브젝트 목록에 추가합니다.
 		GET_SINGLE(ObjectManager)->Add(monster);

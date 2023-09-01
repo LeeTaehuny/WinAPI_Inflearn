@@ -11,6 +11,12 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-public:
+private:
+	// 로밍할 수 있는 범위를 저장할 변수를 선언합니다.
+	// * 로밍 시작위치
+	Vector _start = { 300,100 };
+	// * 로밍 종료위치
+	Vector _end = { 600, 250 };
+
 };
 
