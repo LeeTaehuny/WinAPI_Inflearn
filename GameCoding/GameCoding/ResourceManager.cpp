@@ -10,14 +10,49 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Init()
 {
-	// LineMesh 객체를 생성합니다.
-	LineMesh* mesh = new LineMesh();
-	// 저장된 데이터를 로드합니다. (테스트로 player.txt라는 이름의 파일을 로드하도록 설정)
-	mesh->Load(L"Player.txt");
+	// Menu
+	{
+		// LineMesh 객체를 생성합니다.
+		LineMesh* mesh = new LineMesh();
+		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
+		mesh->Load(L"Menu.txt");
 
-	// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
-	_lineMeshes[L"Player"] = mesh;
+		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
+		_lineMeshes[L"Menu"] = mesh;
+	}
 
+	// UI
+	{
+		// LineMesh 객체를 생성합니다.
+		LineMesh* mesh = new LineMesh();
+		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
+		mesh->Load(L"UI.txt");
+
+		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
+		_lineMeshes[L"UI"] = mesh;
+	}
+
+	// 미사일 탱크
+	{
+		// LineMesh 객체를 생성합니다.
+		LineMesh* mesh = new LineMesh();
+		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
+		mesh->Load(L"MissileTank.txt");
+
+		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
+		_lineMeshes[L"MissileTank"] = mesh;
+	}
+
+	// 캐논 탱크
+	{
+		// LineMesh 객체를 생성합니다.
+		LineMesh* mesh = new LineMesh();
+		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
+		mesh->Load(L"CanonTank.txt");
+
+		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
+		_lineMeshes[L"CanonTank"] = mesh;
+	}
 }
 
 void ResourceManager::Clear()

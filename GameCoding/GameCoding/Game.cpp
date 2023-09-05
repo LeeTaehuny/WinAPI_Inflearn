@@ -58,7 +58,7 @@ void Game::Init(HWND hWnd)
 	// SceneManager의 객체를 초기화합니다.
 	GET_SINGLE(SceneManager)->Init();
 	// Default 씬을 설정합니다.
-	GET_SINGLE(SceneManager)->ChangeScene(SceneType::GameScene);
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::MenuScene);
 
 	// ResourceManager의 객체를 초기화합니다.
 	GET_SINGLE(ResourceManager)->Init();

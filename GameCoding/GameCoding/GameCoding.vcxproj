@@ -145,18 +145,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DevScene.h" />
     <ClInclude Include="EditScene.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="FortressScene.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCoding.h" />
-    <ClInclude Include="GameScene.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LineMesh.h" />
-    <ClInclude Include="Missile.h" />
-    <ClInclude Include="Monster.h" />
+    <ClInclude Include="MenuScene.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="pch.h" />
@@ -169,18 +169,20 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Values.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DevScene.cpp" />
     <ClCompile Include="EditScene.cpp" />
+    <ClCompile Include="FortressScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCoding.cpp" />
-    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LineMesh.cpp" />
-    <ClCompile Include="Missile.cpp" />
-    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="pch.cpp">
@@ -193,6 +195,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
