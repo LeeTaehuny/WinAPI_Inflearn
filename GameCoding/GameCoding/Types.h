@@ -110,6 +110,13 @@ struct Vector
 		return (x * other.x) + (y * other.y);
 	}
 
+	// 외적의 결과를 반환하기 위한 함수를 정의합니다.
+	float Cross(Vector other)
+	{
+		// 외적 공식 : x1*y2 - x2*y1
+		return (x * other.y) - (other.x * y);
+	}
+
 	// 값을 저장할 변수를 선언합니다.
 	float x = 0;
 	float y = 0;

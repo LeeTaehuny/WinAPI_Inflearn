@@ -12,11 +12,11 @@ public:
 	virtual void Render(HDC hdc) override;
 
 private:
-	// 로밍할 수 있는 범위를 저장할 변수를 선언합니다.
-	// * 로밍 시작위치
-	Vector _start = { 300,100 };
-	// * 로밍 종료위치
-	Vector _end = { 600, 250 };
+	// 몬스터가 어떤 위치를 바라보고 있다고 가정합니다.
+	// * 몬스터가 바라보는 위치를 저장하기 위한 변수를 선언합니다. (위치벡터)
+	Vector _lookPos = {};
+	// * 해당 위치까지의 방향을 저장하기 위한 변수를 선언합니다. (방향벡터)
+	Vector _lookDir = {};
 
 };
 

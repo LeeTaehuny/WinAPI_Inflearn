@@ -38,7 +38,7 @@ void GameScene::Init()
 
 		// 몬스터의 위치를 초기화합니다.
 		//monster->SetPos(Pos{static_cast<float>(i + 1) * 100, 100 });
-		monster->SetPos(Pos{ 400.0f, 400.0f});
+		//monster->SetPos(Pos{ 400.0f, 400.0f});
 
 		// 몬스터를 오브젝트 목록에 추가합니다.
 		GET_SINGLE(ObjectManager)->Add(monster);
