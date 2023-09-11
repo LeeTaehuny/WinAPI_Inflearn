@@ -18,6 +18,9 @@ public:
 	// 씬을 삭제하는 함수의 원형을 선언합니다.
 	void Clear();
 
+	// 현재 실행되는 씬을 반환하는 함수를 정의합니다.
+	class Scene* GetCurrentScene() { return _scene; }
+
 private:
 	// 씬을 저장하기 위한 변수를 선언합니다.
 	class Scene* _scene;

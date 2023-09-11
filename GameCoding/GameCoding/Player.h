@@ -41,5 +41,8 @@ public:
 	// 발사 각도를 저장하기 위한 변수를 선언합니다.
 	float		_fireAngle = 0.0f;
 
+public:
+	// 앵글을 업데이트하기 위한 함수를 선언합니다.
+	void		UpdateFireAngle();
 };
 

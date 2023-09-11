@@ -32,7 +32,9 @@ public:
 	Pos			GetPos() { return _pos; }
 	// * 오브젝트 타입
 	ObjectType	GetObjectType() { return _type; }
-
+	// * 충돌 범위
+	float		GetRadius() { return _radius; }
+	void		SetRadius(float radius) { _radius = radius; }
 
 protected:
 	// 자신의 오브젝트 타입을 저장하기 위한 변수를 선언합니다.
@@ -47,5 +49,9 @@ protected:
 
 	// 오브젝트의 방향을 저장하기 위한 변수를 선언합니다.
 	Dir			_dir = Dir::Left;
+
+	// 플레이어와 총알을 모두 원으로 관리할 것이므로 반지름을 저장하기 위한 변수를 선언합니다.
+	// * 충돌 범위
+	float		_radius = 50.0f;
 };
 
