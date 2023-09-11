@@ -136,6 +136,9 @@ void Player::Update()
 		// * y : speed * -sin(angle)
 		bullet->SetSpeed(Vector(speed * ::cos(angle * PI / 180.0f), -1 * speed * ::sin(angle * PI / 180.0f)));
 
+		// 총알의 주체를 저장합니다.
+		bullet->SetOwner(this);
+
 		// 총알을 오브젝트 목록에 추가합니다.
 		GET_SINGLE(ObjectManager)->Add(bullet);
 	}
