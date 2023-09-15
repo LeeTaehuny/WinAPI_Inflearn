@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "ResourceManager.h"
-#include "LineMesh.h"
+#include "Texture.h"
+#include "Sprite.h"
 
 ResourceManager::~ResourceManager()
 {
@@ -8,75 +9,85 @@ ResourceManager::~ResourceManager()
 	Clear();
 }
 
-void ResourceManager::Init()
+void ResourceManager::Init(HWND hWnd, fs::path resourcePath)
 {
-	// Menu
-	{
-		// LineMesh 객체를 생성합니다.
-		LineMesh* mesh = new LineMesh();
-		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
-		mesh->Load(L"Menu.txt");
+	_resourcePath = resourcePath;
+	_hWnd = hWnd;
 
-		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
-		_lineMeshes[L"Menu"] = mesh;
-	}
-
-	// UI
-	{
-		// LineMesh 객체를 생성합니다.
-		LineMesh* mesh = new LineMesh();
-		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
-		mesh->Load(L"UI.txt");
-
-		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
-		_lineMeshes[L"UI"] = mesh;
-	}
-
-	// 미사일 탱크
-	{
-		// LineMesh 객체를 생성합니다.
-		LineMesh* mesh = new LineMesh();
-		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
-		mesh->Load(L"MissileTank.txt");
-
-		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
-		_lineMeshes[L"MissileTank"] = mesh;
-	}
-
-	// 캐논 탱크
-	{
-		// LineMesh 객체를 생성합니다.
-		LineMesh* mesh = new LineMesh();
-		// 저장된 데이터를 로드합니다. (테스트로 UI.txt라는 이름의 파일을 로드하도록 설정)
-		mesh->Load(L"CanonTank.txt");
-
-		// 로드된 mesh를 _lineMeshes 컨테이너에 추가합니다.
-		_lineMeshes[L"CanonTank"] = mesh;
-	}
 }
 
 void ResourceManager::Clear()
 {
-	for (auto mesh : _lineMeshes)
+	// _textures 배열을 순회하며 texture 정보를 삭제해줍니다.
+	for (auto& item : _textures)
 	{
-		SAFE_DELETE(mesh.second);
+		SAFE_DELETE(item.second);
 	}
 
-	_lineMeshes.clear();
+	// _textures 배열을 비워줍니다.
+	_textures.clear();
 }
 
-const LineMesh* ResourceManager::GetLineMesh(wstring key)
+Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, uint32 transparent)
 {
-	// 해당 키 값에 맞는 위치를 저장합니다.
-	auto findIt = _lineMeshes.find(key);
-
-	// 만약 해당 위치가 존재하지 않는다면?
-	if (findIt == _lineMeshes.end())
+	// 만약 해당 키가 _textures 배열에 있다면?
+	if (_textures.find(key) != _textures.end())
 	{
-		// 찾지 못했으므로 nullptr를 반환합니다.
-		return nullptr;
+		// 키에 해당하는 텍스처를 반환합니다.
+		return _textures[key];
 	}
 
-	// 해당 위치의 객체를 반환합니다.
-	return findIt->second;
+	// 입력받은 키에 해당되는 텍스처가 없는 상황입니다.
+
+	// 전체 경로를 구해줍니다.
+	// * _resourcePath : 절대 파일경로
+	// * path		   : 상대 파일 경로
+	// -> fullPath : 전체 파일 경로(절대 + 상대 파일 경로)
+	fs::path fullPath = _resourcePath / path;
+
+	// 텍스처를 생성합니다.
+	Texture* texture = new Texture();
+	// 텍스처에 이미지 파일을 저장합니다.
+	texture->LoadBmp(_hWnd, fullPath.c_str());
+	// 텍스처에 적용할 투명 색을 저장합니다.
+	texture->SetTransparent(transparent);
+
+	// 입력받은 키에 위에서 생성한 텍스쳐를 쌍으로 배열에 추가해줍니다.
+	_textures[key] = texture;
+
+	// 생성된 texture를 반환합니다.
+	return texture;
+}
+
+Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, int32 x, int32 y, int32 cx, int32 cy)
+{
+	// 만약 해당 키가 _sprites 배열에 있다면?
+	if (_sprites.find(key) != _sprites.end())
+	{
+		// 해당 스프라이트를 반환합니다.
+		return _sprites[key];
+	}
+
+	// 만약 자르고 싶은 사이즈가 0(기본값)이라면?
+	if (cx == 0)
+	{
+		// 텍스쳐의 크기로 설정합니다.
+		cx = texture->GetSize().x;
+	}
+
+	if (cy == 0)
+	{
+		// 텍스쳐의 크기로 설정합니다.
+		cy = texture->GetSize().y;
+	}
+
+	// 스프라이트가 없는 경우입니다.
+
+	// 새로운 스프라이트를 생성합니다.
+	Sprite* sprite = new Sprite(texture, x, y, cx, cy);
+	// _sprites 배열에 추가합니다.
+	_sprites[key] = sprite;
+
+	// 해당 스프라이트를 반환합니다.
+	return sprite;
 }

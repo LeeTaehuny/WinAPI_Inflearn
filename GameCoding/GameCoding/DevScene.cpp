@@ -3,6 +3,9 @@
 #include "Utils.h"
 #include "InputManager.h"
 #include "TimeManager.h"
+#include "ResourceManager.h"
+#include "Texture.h"
+#include "Sprite.h"
 
 DevScene::DevScene()
 {
@@ -16,7 +19,23 @@ DevScene::~DevScene()
 
 void DevScene::Init()
 {
+	// 씬에 필요한 텍스쳐들을 불러옵니다.
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
+	//GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"Sprite\\Player\\PlayerDown.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerUp", L"Sprite\\Player\\PlayerUp.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerLeft", L"Sprite\\Player\\PlayerLeft.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerRight", L"Sprite\\Player\\PlayerRight.bmp", RGB(128, 128, 128));
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Start", L"Sprite\\UI\\Start.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Edit", L"Sprite\\UI\\Edit.bmp");
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Exit", L"Sprite\\UI\\Exit.bmp");
 
+	// 스프라이트 테스트
+	// * 스프라이트에 필요한 텍스쳐를 받아옵니다.
+	Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"Start");
+	// * 스프라이트를 생성합니다.
+	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_On", tex, 150, 0, 150, 150);
 }
 
 void DevScene::Update()
@@ -25,41 +44,28 @@ void DevScene::Update()
 	// * 즉, 모든 컴퓨터에서 동일한 속도로 이동시키기 위해 이전 프레임에서 현재 프레임까지의 경과시간을 이용합니다.
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
-
-	// 테스트로 입력받은 키보드 값에 따라 _playerPos를 이동시킵니다.
-	// * 대각선으로 이동하는 경우는 두 개의 키를 누르고, 두 좌표가 이동하기 때문에 이동 거리가 더욱 증가하는 문제가 생깁니다.
-	//   (즉, 대각선 방향으로 이동 시 이동 속도가 증가합니다.)
-	// ** 삼각함수 등 수학적인 처리가 필요합니다.
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
-	{
-		// 거리 = 시간 * 속도이므로 다시 수정해줍니다.
-		// _playerPos.x -= 1;
-		_playerPos.x -= deltaTime * _speed;
-	}
-	
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
-	{
-		// _playerPos.x += 1;
-		_playerPos.x += deltaTime * _speed;
-	}
-
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
-	{
-		// 거리 = 시간 * 속도이므로 다시 수정해줍니다.
-		// _playerPos.x -= 1;
-		_playerPos.y -= deltaTime * _speed;
-	}
-
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::S))
-	{
-		// _playerPos.x += 1;
-		_playerPos.y += deltaTime * _speed;
-	}
 }
 
 void DevScene::Render(HDC hdc)
 {
-	// 플레이어를 화면에 그려줍니다.
-	// * test이므로, 원으로 표현합니다.
-	Utils::DrawCircle(hdc, _playerPos, 50);
+	// 테스트로 출력하고 싶은 텍스처를 가져옵니다.
+	//Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"Stage01");
+	Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Start_On");
+
+	// 해당 텍스처를 출력합니다.
+	//::BitBlt(hdc,
+	//	  0, 0, 
+	//	  GWinSizeX, GWinSizeY, 
+	//	  tex->GetDC(),
+	//	  0, 0, 
+	//	  SRCCOPY
+	//);
+
+	::BitBlt(hdc,
+		0, 0,
+		GWinSizeX, GWinSizeY,
+		sprite->GetDC(),
+		sprite->GetPos().x, sprite->GetPos().y,
+		SRCCOPY
+	);
 }

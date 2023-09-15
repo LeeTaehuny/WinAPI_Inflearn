@@ -92,38 +92,23 @@
     <ClInclude Include="Object.h">
       <Filter>소스 파일\03. Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>소스 파일\03. Objects\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>소스 파일\01. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="EditScene.h">
       <Filter>소스 파일\02. Scene\Game</Filter>
     </ClInclude>
     <ClInclude Include="ResourceBase.h">
       <Filter>소스 파일\04. Resources</Filter>
     </ClInclude>
-    <ClInclude Include="LineMesh.h">
-      <Filter>소스 파일\04. Resources</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>소스 파일\01. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>소스 파일\01. Manager\Game</Filter>
     </ClInclude>
     <ClInclude Include="Values.h">
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
-    <ClInclude Include="MenuScene.h">
-      <Filter>소스 파일\02. Scene\Game\Fortress</Filter>
+    <ClInclude Include="Texture.h">
+      <Filter>소스 파일\04. Resources</Filter>
     </ClInclude>
-    <ClInclude Include="FortressScene.h">
-      <Filter>소스 파일\02. Scene\Game\Fortress</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>소스 파일\03. Objects\Game</Filter>
+    <ClInclude Include="Sprite.h">
+      <Filter>소스 파일\04. Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,35 +155,20 @@
     <ClCompile Include="Object.cpp">
       <Filter>소스 파일\03. Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일\03. Objects\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>소스 파일\01. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="EditScene.cpp">
       <Filter>소스 파일\02. Scene\Game</Filter>
     </ClCompile>
     <ClCompile Include="ResourceBase.cpp">
       <Filter>소스 파일\04. Resources</Filter>
     </ClCompile>
-    <ClCompile Include="LineMesh.cpp">
-      <Filter>소스 파일\04. Resources</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>소스 파일\01. Manager\Game</Filter>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
     </ClCompile>
-    <ClCompile Include="MenuScene.cpp">
-      <Filter>소스 파일\02. Scene\Game\Fortress</Filter>
-    </ClCompile>
-    <ClCompile Include="FortressScene.cpp">
-      <Filter>소스 파일\02. Scene\Game\Fortress</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>소스 파일\03. Objects\Game</Filter>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

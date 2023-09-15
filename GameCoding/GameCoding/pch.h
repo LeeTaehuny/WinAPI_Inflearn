@@ -16,7 +16,10 @@
 
 using namespace std;
 
+// C++ 20
 #include <format>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 // C++ 메모리 릭 체크
 #define _CRTDEBG_MAP_ALLOC

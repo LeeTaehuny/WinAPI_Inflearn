@@ -14,12 +14,6 @@ public:
 	virtual void Render(HDC hdc) override;
 
 public:
-	// test player
-	// * 플레이어의 현재 좌표를 저장할 변수를 선언합니다.
-	Pos _playerPos = { 300, 300 };
 
-	// test speed
-	// * 플레이어의 이동 속도를 저장할 변수를 선언합니다.
-	float _speed = 1000.0f;
 };
 

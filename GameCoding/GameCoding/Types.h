@@ -12,7 +12,7 @@ using uint16	= unsigned __int16;
 using uint32	= unsigned __int32;
 using uint64	= unsigned __int64;
 
-// 벡터 정보를 저장하기 위한 구조체를 선언합니다.
+// 벡터 정보를 저장하기 위한 구조체를 선언합니다. (float)
 struct Vector
 {
 	// 생성자를 선언합니다.
@@ -122,6 +122,78 @@ struct Vector
 	float y = 0;
 };
 
+// 벡터 정보를 저장하기 위한 구조체를 선언합니다. (int)
+struct VectorInt
+{
+	// 생성자를 선언합니다.
+	VectorInt() { }
+	VectorInt(int32 x, int32 y) : x(x), y(y) { }
+	// POINT로 만들 수 있도록 생성자 추가
+	VectorInt(POINT pt) : x(static_cast<int32>(pt.x)), y(static_cast<int32>(pt.y)) { }
+
+	/** 벡터의 기능들을 구현해줍니다. */
+
+	// 다른 벡터와의 덧셈을 위한 연산자 오버로딩
+	VectorInt operator+(const VectorInt& other)
+	{
+		VectorInt ret;
+		ret.x = x + other.x;
+		ret.y = y + other.y;
+
+		return ret;
+	}
+
+	void operator+=(const VectorInt& other)
+	{
+		x += other.x;
+		y += other.y;
+	}
+
+	// 다른 벡터와의 뺄셈을 위한 연산자 오버로딩
+	VectorInt operator-(const VectorInt& other)
+	{
+		VectorInt ret;
+		ret.x = x - other.x;
+		ret.y = y - other.y;
+
+		return ret;
+	}
+
+	void operator-=(const VectorInt& other)
+	{
+		x -= other.x;
+		y -= other.y;
+	}
+
+	// 특정 값과 곱셈을 위한 연산자 오버로딩
+	VectorInt operator*(float value)
+	{
+		VectorInt ret;
+		ret.x = x * value;
+		ret.y = y * value;
+
+		return ret;
+	}
+
+	// 내적의 결과를 반환하기 위한 함수를 정의합니다.
+	float Dot(VectorInt other)
+	{
+		// 내적 공식 : x1*x2 + y1*y2
+		return (x * other.x) + (y * other.y);
+	}
+
+	// 외적의 결과를 반환하기 위한 함수를 정의합니다.
+	float Cross(VectorInt other)
+	{
+		// 외적 공식 : x1*y2 - x2*y1
+		return (x * other.y) - (other.x * y);
+	}
+
+	// 값을 저장할 변수를 선언합니다.
+	int32 x = 0;
+	int32 y = 0;
+};
+
 // 위치정보를 저장하기 위한 구조체를 선언합니다.
 // * 벡터와 Pos는 결과적으로 저장하는 구조가 동일합니다.
 // * 이제부터는 Pos를 사용하지 않고 벡터만 사용하도록 합니다.
@@ -134,6 +206,8 @@ struct Vector
 // 기존 Pos대신 Vector를 사용하겠다고 처리합니다.
 // * 기존 Pos : 위치만 저장하는 벡터(위치벡터)로 사용한다고 생각하기. (x, y만 저장하기 위해 사용하는 것)
 using Pos = Vector;
+using Vec2 = Vector;
+using Vec2Int = VectorInt;
 
 
 // 오브젝트들이 가지고 있을 수 있는 스탯을 저장하기 위한 구조체를 선언합니다.

@@ -49,6 +49,9 @@ void Game::Init(HWND hWnd)
 	// 기존에 사용했던 비트맵을 삭제합니다.
 	::DeleteObject(prev);
 
+	// ResourceManager의 객체를 초기화합니다.
+	GET_SINGLE(ResourceManager)->Init(_hWnd, fs::path(L"C:\\Users\\user\\OneDrive\\바탕 화면\\WinAPI_Inflearn\\GameCoding\\Resources\\"));
+
 	// TimeManager의 객체를 초기화합니다.
 	GET_SINGLE(TimeManager)->Init();
 	
@@ -58,10 +61,9 @@ void Game::Init(HWND hWnd)
 	// SceneManager의 객체를 초기화합니다.
 	GET_SINGLE(SceneManager)->Init();
 	// Default 씬을 설정합니다.
-	GET_SINGLE(SceneManager)->ChangeScene(SceneType::MenuScene);
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
 
-	// ResourceManager의 객체를 초기화합니다.
-	GET_SINGLE(ResourceManager)->Init();
+
 }
 
 // 업데이트 함수를 정의합니다.

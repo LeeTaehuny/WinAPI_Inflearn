@@ -3,9 +3,6 @@
 #include "DevScene.h"
 #include "EditScene.h"
 
-#include "MenuScene.h"
-#include "FortressScene.h"
-
 void SceneManager::Init()
 {
 
@@ -54,16 +51,6 @@ void SceneManager::ChangeScene(SceneType sceneType)
 	case SceneType::EditScene:
 		// 툴 전용 씬을 동적 할당합니다.
 		newScene = new EditScene();
-
-	case SceneType::MenuScene:
-		// 테스트용 씬을 동적 할당합니다.
-		newScene = new MenuScene();
-		break;
-
-	case SceneType::FortressScene:
-		// 테스트용 씬을 동적 할당합니다.
-		newScene = new FortressScene();
-		break;
 	}
 
 	// 씬을 교체했으므로 기존 씬은 삭제합니다.
