@@ -9,6 +9,7 @@
 #include "Actor.h"
 #include "SpriteActor.h"
 #include "Player.h"
+#include "Flipbook.h"
 
 DevScene::DevScene()
 {
@@ -43,6 +44,32 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 0, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Exit_On", GET_SINGLE(ResourceManager)->GetTexture(L"Exit"), 150, 0, 150, 150);
 
+	// 플레이어 애니메이션 설정
+	{
+		// 텍스쳐를 가져옵니다.
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerUp");
+		// 애니메이션을 생성합니다.
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveUp");
+		// 애니메이션의 정보를 설정합니다.
+		fb->SetInfo({ texture, L"MoveUp", {200, 200}, 0, 9, 1, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerDown");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveDown");
+		fb->SetInfo({ texture, L"MoveDown", {200, 200}, 0, 9, 1, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerLeft");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveLeft");
+		fb->SetInfo({ texture, L"MoveLeft", {200, 200}, 0, 9, 1, 0.5f });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->GetTexture(L"PlayerRight");
+		Flipbook* fb = GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight");
+		fb->SetInfo({ texture, L"MoveRight", {200, 200}, 0, 9, 1, 0.5f });
+	}
+
+
 	// 배경
 	{
 		// 사용할 스프라이트를 가져옵니다.
@@ -63,53 +90,14 @@ void DevScene::Init()
 
 	// 플레이어
 	{
-		// 사용할 스프라이트를 가져옵니다. (스타트를 플레이어로 가정
-		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Start_On");
-
 		// 액터를 생성합니다.
 		Player* player = new Player();
-		// 스프라이트를 저장합니다.
-		player->SetSprite(sprite);
 
-		// 액터의 위치를 설정합니다.
-		const Vec2Int size = sprite->GetSize();
-		player->SetPos(Vec2(size.x / 2, size.y / 2));
+		//player->SetPos(Vec2(100.0f, 100.0f));
 
 		// 씬에 액터를 저장합니다.
 		_actors.push_back(player);
 	}
-
-	// 유니티 방식
-	//{
-	//	GameObject* player = new GameObject();
-	//	player->SetPos({ 500, 500 });
-	//	
-	//	// 부품 추가 (스프라이트)
-	//	{
-	//		// 스프라이트를 가져옵니다.
-	//		Sprite* sprite = GET_SINGLE(ResourceManager)->GetSprite(L"Start_Off");
-	//
-	//		// 스프라이트를 그려주기 위한 부품을 생성합니다.
-	//		SpriteRenderer* sr = new SpriteRenderer();
-	//		// 스프라이트를 저장합니다.
-	//		sr->SetSprite(sprite);
-	//
-	//		// 플레이어에 부품을 추가합니다.
-	//		player->AddComponent(sr);
-	//	}
-	//
-	//	// 부품 추가 (이동)
-	//	{
-	//		// 이동하기 위한 부품을 생성합니다.
-	//		PlayerMoveScript* mv = new PlayerMoveScript();
-	//		
-	//		// 부품을 추가합니다.
-	//		player->AddComponent(mv);
-	//	}
-	//
-	//	// 씬에 게임오브젝트를 저장합니다.
-	//	_go = player;
-	//}
 
 	// BeginPlay() 함수는 게임 실행과 동시에 호출되는 함수입니다.
 	// * 일단 테스트를 위해 여기서 호출하도록 하겠습니다.

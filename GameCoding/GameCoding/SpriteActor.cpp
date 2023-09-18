@@ -38,11 +38,22 @@ void SpriteActor::Render(HDC hdc)
 	Vec2Int size = _sprite->GetSize();
 
 	// 스프라이트를 출력합니다.
-	::BitBlt(hdc,
+	//::BitBlt(hdc,
+	//	(int32)_pos.x - size.x / 2, (int32)_pos.y - size.y / 2,
+	//	size.x, size.y,
+	//	_sprite->GetDC(),
+	//	_sprite->GetPos().x, _sprite->GetPos().y,
+	//	SRCCOPY
+	//);
+
+	// TransparentBlt() : 스프라이트 중 특정 색상을 투명화하고 출력하는 함수
+	// * 매개변수 : 출력DC, 출력할 위치, 출력할 크기, 복사DC, 스프라이트 복사 시작 위치(x, y), 복사할 크기, 투명화 시킬 색상
+	::TransparentBlt(hdc,
 		(int32)_pos.x - size.x / 2, (int32)_pos.y - size.y / 2,
 		size.x, size.y,
 		_sprite->GetDC(),
-		_sprite->GetPos().x, _sprite->GetPos().y,
-		SRCCOPY
+		_sprite->GetPos().x, _sprite->GetPos().y, // 스프라이트 복사 시작 위치를 설정
+		_sprite->GetSize().x, _sprite->GetSize().y,
+		_sprite->GetTransparent()
 	);
 }

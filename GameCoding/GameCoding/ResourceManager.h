@@ -3,6 +3,7 @@
 class ResourceBase;
 class Texture;
 class Sprite;
+class Flipbook;
 
 class ResourceManager
 {
@@ -31,6 +32,12 @@ public:
 	// 텍스처를 스프라이트로 만들어 반환하기 위한 함수를 선언합니다.
 	Sprite* CreateSprite(const wstring& key, Texture* texture, int32 x = 0, int32 y = 0, int32 cx = 0, int32 cy = 0);
 
+	// 특정 키에 해당하는 애니메이션을 반환하는 함수를 정의합니다.
+	Flipbook* GetFilpbook(const wstring& key) { return _flipbooks[key]; }
+	// 특정 키에 해당하는 애니메이션을 생성하기 위한 함수를 선언합니다.
+	// * 애니메이션별로 설정할 값들이 너무 다르기 때문에 객체만 생성하여 리턴해주는 방식으로 구현합니다.
+	Flipbook* CreateFlipbook(const wstring& key);
+
 private:
 	// 윈도우 핸들 번호를 저장할 변수를 선언합니다.
 	HWND _hWnd = {};
@@ -42,5 +49,7 @@ private:
 	unordered_map<wstring, Texture*> _textures;
 	// (키값[파일경로], 리소스 객체) 형태로 Sprite 객체들을 정렬하지 않고 저장하는 컨테이너를 선언합니다.
 	unordered_map<wstring, Sprite*> _sprites;
+	// (키값[파일경로], 리소스 객체) 형태로 Flipbook 객체들을 정렬하지 않고 저장하는 컨테이너를 선언합니다.
+	unordered_map<wstring, Flipbook*> _flipbooks;
 };
 

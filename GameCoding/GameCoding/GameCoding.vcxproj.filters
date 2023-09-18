@@ -39,9 +39,6 @@
     <Filter Include="소스 파일\01. Manager\Game">
       <UniqueIdentifier>{a029368d-dacf-46ce-a99e-5be8dce1c46b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Scene\Game\Fortress">
-      <UniqueIdentifier>{4ceaf6e1-3c08-425d-8319-d1c33a0c16ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\03. Objects\Unreal">
       <UniqueIdentifier>{0208de29-5e34-47c3-869f-70e270b8e479}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,9 @@
     </Filter>
     <Filter Include="소스 파일\05. Component\Game">
       <UniqueIdentifier>{686c2d11-1c49-4ba8-a6a0-c5a5f5060053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04. Resources\Game">
+      <UniqueIdentifier>{f54b5dba-653e-4f98-87cb-c2d11fb6f8d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +131,12 @@
     <ClInclude Include="Component.h">
       <Filter>소스 파일\05. Component</Filter>
     </ClInclude>
+    <ClInclude Include="Flipbook.h">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookActor.h">
+      <Filter>소스 파일\03. Objects\Unreal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameCoding.rc">
@@ -202,6 +208,12 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>소스 파일\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Flipbook.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookActor.cpp">
+      <Filter>소스 파일\03. Objects\Unreal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

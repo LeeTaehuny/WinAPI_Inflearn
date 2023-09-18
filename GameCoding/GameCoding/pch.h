@@ -30,3 +30,6 @@ namespace fs = std::filesystem;
 #ifdef _DEBUG
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
+
+// TransparentBlt()를 사용하기 위한 라이브러리 추가
+#pragma comment(lib, "msimg32.lib")

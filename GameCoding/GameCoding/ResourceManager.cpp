@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "Sprite.h"
+#include "Flipbook.h"
 
 ResourceManager::~ResourceManager()
 {
@@ -18,14 +19,28 @@ void ResourceManager::Init(HWND hWnd, fs::path resourcePath)
 
 void ResourceManager::Clear()
 {
-	// _textures 배열을 순회하며 texture 정보를 삭제해줍니다.
+	// 배열들을 순회하며 객체 정보를 삭제해줍니다.
 	for (auto& item : _textures)
+	{
+		SAFE_DELETE(item.second);
+	}
+
+	for (auto& item : _sprites)
+	{
+		SAFE_DELETE(item.second);
+	}
+
+	for (auto& item : _flipbooks)
 	{
 		SAFE_DELETE(item.second);
 	}
 
 	// _textures 배열을 비워줍니다.
 	_textures.clear();
+	// _sprites 배열을 비워줍니다.
+	_sprites.clear();
+	// _flipbooks 배열을 비워줍니다.
+	_flipbooks.clear();
 }
 
 Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, uint32 transparent)
@@ -90,4 +105,24 @@ Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, int3
 
 	// 해당 스프라이트를 반환합니다.
 	return sprite;
+}
+
+Flipbook* ResourceManager::CreateFlipbook(const wstring& key)
+{
+	// 만약 애니메이션들의 목록에서 키가 존재한다면?
+	if (_flipbooks.find(key) != _flipbooks.end())
+	{
+		// 해당 키값을 가진 애니메이션을 반환합니다.
+		return _flipbooks[key];
+	}
+
+	// 애니메이션이 없는 경우입니다.
+
+	// 새로운 애니메이션을 생성합니다.
+	Flipbook* fb = new Flipbook();
+	// _flipbooks 배열에 추가합니다.
+	_flipbooks[key] = fb;
+
+	// 해당 애니메이션을 반환합니다.
+	return fb;
 }
