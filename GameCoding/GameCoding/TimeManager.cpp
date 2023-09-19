@@ -42,7 +42,7 @@ void TimeManager::Update()
 		_fps = static_cast<uint32>(_frameCount / _frameTime);
 
 		// fps를 구해주었으므로 초기값으로 돌려줍니다.
-		_frameCount = 0.0f;
+		_frameCount = 0;
 		_frameTime = 0;
 	}
 }

@@ -16,9 +16,15 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
+	// 액터를 추가하기 위한 함수를 선언합니다.
+	void AddActor(Actor* actor);
+	// 액터를 제거하기 위한 함수를 선언합니다.
+	void RemoveActor(Actor* actor);
+
 public:
 	// 액터들을 한 번에 관리하기 위한 벡터 컨테이너를 선언합니다.
-	vector<Actor*> _actors;
+	// * 레이어 별로 구분해서 사용하기 위해 2차원 벡터 컨테이너로 변경합니다.
+	vector<Actor*> _actors[LAYER_MAXCOUNT];
 
 	//GameObject* _go;
 };

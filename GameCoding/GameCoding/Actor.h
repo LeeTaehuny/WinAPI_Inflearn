@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+class Component;
+
 // 씬에 배치 가능한 오브젝트 클래스입니다.
 class Actor
 {
@@ -17,10 +19,26 @@ public:
 	// 위치 정보를 반환하기 위한 함수를 정의합니다.
 	Vec2 GetPos() { return _pos; }
 
+	// 컴포넌트를 추가하는 함수를 선언합니다.
+	void AddComponent(Component* component);
+	// 컴포넌트를 제거하는 함수를 선언합니다.
+	void RemoveComponent(Component* component);
+
+	// 레이어의 타입을 설정하기 위한 함수를 정의합니다.
+	void SetLayer(LAYER_TYPE layer) { _layer = layer; }
+	// 레이어의 타입을 반환하기 위한 함수를 정의합니다.
+	LAYER_TYPE GetLayer() { return _layer; }
+
 protected:
 	// 씬에 배치가 가능하다는 것은 위치 정보를 가지고 있다는 의미입니다.
 	// * 위치 정보를 저장하기 위한 변수를 선언합니다.
 	Vec2 _pos = { 0,0 };
+
+	// 컴포넌트를 저장하기 위한 배열을 선언합니다.
+	vector<Component*> _components;
+
+	// 액터의 종류를 구분하기 위한 변수를 선언합니다.
+	LAYER_TYPE _layer = LAYER_OBJECT;
 
 private:
 	// 여기에 스프라이트 or 텍스쳐를 넣어줄 수도 있음

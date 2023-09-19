@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Flipbook.h"
 #include "TimeManager.h"
+#include "CameraComponent.h"
 
 
 Player::Player()
@@ -13,6 +14,11 @@ Player::Player()
 	_flipbookDown = GET_SINGLE(ResourceManager)->GetFilpbook(L"FB_MoveDown");
 	_flipbookLeft = GET_SINGLE(ResourceManager)->GetFilpbook(L"FB_MoveLeft");
 	_flipbookRight = GET_SINGLE(ResourceManager)->GetFilpbook(L"FB_MoveRight");
+
+	// 카메라 컴포넌트를 생성합니다.
+	CameraComponent* camera = new CameraComponent();
+	// 카메라 컴포넌트를 컴포넌트들의 배열에 추가합니다.
+	AddComponent(camera);
 }
 
 Player::~Player()

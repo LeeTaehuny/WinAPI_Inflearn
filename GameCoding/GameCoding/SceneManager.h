@@ -23,8 +23,20 @@ public:
 
 private:
 	// 씬을 저장하기 위한 변수를 선언합니다.
-	class Scene* _scene;
+	class Scene* _scene = nullptr;
 	// 씬의 타입을 저장하기 위한 변수를 선언합니다.
 	SceneType _sceneType = SceneType::None;
+	
+
+// Camera
+public:
+	// 카메라의 위치를 반환하는 함수를 정의합니다.
+	Vec2 GetCameraPos() { return _cameraPos; }
+	// 카메라의 위치를 설정하는 함수를 정의합니다.
+	void SetCameraPos(Vec2 cameraPos) { _cameraPos = cameraPos; }
+
+private:
+	// 카메라의 위치를 저장하기 위한 변수를 선언합니다.
+	Vec2 _cameraPos = { 0, 0 };
 };
 

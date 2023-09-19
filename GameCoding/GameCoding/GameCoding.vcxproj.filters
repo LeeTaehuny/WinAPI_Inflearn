@@ -137,6 +137,9 @@
     <ClInclude Include="FlipbookActor.h">
       <Filter>소스 파일\03. Objects\Unreal</Filter>
     </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>소스 파일\05. Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameCoding.rc">
@@ -214,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="FlipbookActor.cpp">
       <Filter>소스 파일\03. Objects\Unreal</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>소스 파일\05. Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

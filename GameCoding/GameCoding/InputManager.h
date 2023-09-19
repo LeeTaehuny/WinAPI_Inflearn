@@ -84,6 +84,6 @@ private:
 
 	// 마우스의 상태를 저장하기 위한 변수를 선언합니다.
 	// * POINT : x, y로 이루어져 있는 구조체입니다.
-	POINT _mousePos;
+	POINT _mousePos = {};
 };
 

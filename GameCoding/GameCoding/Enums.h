@@ -8,16 +8,13 @@ enum class SceneType
 	EditScene,  // 2 = 툴 용도로 사용할 씬
 };
 
-// 플레이어의 타입을 열거형으로 정의합니다.
-enum class PlayerType
+// 렌더링할 순서를 구분하기 위한 열거형을 정의합니다.
+enum LAYER_TYPE
 {
-	CanonTank,
-	MissileTank,
-};
+	// 위에서부터 먼저 렌더링됩니다.
+	LAYER_BACKGROUND,	// 0 = 배경 
+	LAYER_OBJECT,		// 1 = 오브젝트
+	LAYER_UI,			// 2 = UI
 
-// 플레이어의 방향을 열거형으로 정의합니다.
-enum class Dir
-{
-	Left,
-	Right,
-};
+	LAYER_MAXCOUNT,		// 레이어 숫자 3
+}; 

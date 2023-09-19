@@ -78,9 +78,13 @@ void FlipbookActor::Render(HDC hdc)
 	// 해당 애니메이션의 정보를 받아옵니다.
 	const FlipbookInfo& info = _flipbook->GetInfo();
 
+	// 카메라의 위치 정보를 받불러옵니다.
+	Vec2 cameraPos = GET_SINGLE(SceneManager)->GetCameraPos();
+
 	// TransparentBlt() : 스프라이트 중 특정 색상을 투명화하고 출력하는 함수
 	::TransparentBlt(hdc,													// 출력할 DC
-		(int32)_pos.x - info.size.x / 2, (int32)_pos.y - info.size.y / 2,	// 이미지를 중점에서부터 그리기 위함
+		//(int32)_pos.x - info.size.x / 2, (int32)_pos.y - info.size.y / 2,	// 이미지를 중점에서부터 그리기 위함 (출력 위치)
+		(int32)_pos.x - info.size.x / 2 - ((int32)cameraPos.x - GWinSizeX / 2), (int32)_pos.y - info.size.y / 2 - ((int32)cameraPos.y - GWinSizeY / 2),
 		info.size.x, info.size.y,											// 애니메이션 한 프레임의 크기
 		info.texture->GetDC(),												// 복사할 DC
 		(info.start + _idx) * info.size.x, info.line * info.size.y,			// 복사를 시작할 위치
