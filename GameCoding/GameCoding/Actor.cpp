@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Actor.h"
 #include "Component.h"
+#include "Collider.h"
 
 Actor::Actor()
 {
@@ -65,4 +66,12 @@ void Actor::RemoveComponent(Component* component)
 
 	// 해당 컴포넌트를 삭제합니다.
 	_components.erase(findIt);
+}
+
+void Actor::OnComponentBeginOverlap(Collider* collider, Collider* other)
+{
+}
+
+void Actor::OnComponentEndOverlap(Collider* collider, Collider* other)
+{
 }

@@ -83,3 +83,13 @@ void Player::Render(HDC hdc)
 	// 부모의 함수 내용을 불러옵니다.
 	Super::Render(hdc);
 }
+
+void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
+{
+
+}
+
+void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
+{
+
+}

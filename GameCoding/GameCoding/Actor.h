@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 class Component;
+class Collider;
 
 // 씬에 배치 가능한 오브젝트 클래스입니다.
 class Actor
@@ -28,6 +29,12 @@ public:
 	void SetLayer(LAYER_TYPE layer) { _layer = layer; }
 	// 레이어의 타입을 반환하기 위한 함수를 정의합니다.
 	LAYER_TYPE GetLayer() { return _layer; }
+
+	// 충돌이 발생하면 호출될 함수를 선언합니다.
+	// * 어떤 컴포넌트가 충돌했는지 (collider)
+	// * 상대방은 어떤 컴포넌트인지 (other)
+	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other);
+	virtual void OnComponentEndOverlap(Collider* collider, Collider* other);
 
 protected:
 	// 씬에 배치가 가능하다는 것은 위치 정보를 가지고 있다는 의미입니다.

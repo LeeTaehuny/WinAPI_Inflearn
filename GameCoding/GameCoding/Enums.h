@@ -18,3 +18,10 @@ enum LAYER_TYPE
 
 	LAYER_MAXCOUNT,		// 레이어 숫자 3
 }; 
+
+// 충돌타입을 구분하기 위한 열거형을 정의합니다.
+enum class ColliderType
+{
+	Box,	// 0 = 사각형
+	Sphere, // 1 = 구체
+};

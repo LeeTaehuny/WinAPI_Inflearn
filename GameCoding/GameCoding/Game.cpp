@@ -50,7 +50,8 @@ void Game::Init(HWND hWnd)
 	::DeleteObject(prev);
 
 	// ResourceManager의 객체를 초기화합니다.
-	GET_SINGLE(ResourceManager)->Init(_hWnd, fs::path(L"C:\\Users\\user\\OneDrive\\바탕 화면\\WinAPI_Inflearn\\GameCoding\\Resources\\"));
+	GET_SINGLE(ResourceManager)->Init(_hWnd, fs::path(L"C:\\Study\\git\\WinAPI_Inflearn\\GameCoding\\Resources\\"));
+
 
 	// TimeManager의 객체를 초기화합니다.
 	GET_SINGLE(TimeManager)->Init();

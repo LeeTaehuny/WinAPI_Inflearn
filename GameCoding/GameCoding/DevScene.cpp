@@ -10,6 +10,9 @@
 #include "SpriteActor.h"
 #include "Player.h"
 #include "Flipbook.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
 
 DevScene::DevScene()
 {
@@ -94,6 +97,43 @@ void DevScene::Init()
 		// 액터를 생성합니다.
 		Player* player = new Player();
 		
+		// 구체 콜라이더 컴포넌트를 생성합니다.
+		SphereCollider* collider = new SphereCollider();
+		// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
+		collider->SetRadius(50.0f);
+		collider->SetShowDebug(true);
+		// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
+		player->AddComponent(collider);
+
+		// 충돌체 매니저에 해당 충돌체를 저장합니다.
+		GET_SINGLE(CollisionManager)->AddCollider(collider);
+
+		// 액터의 종류에 따라 레이어를 설정합니다.
+		player->SetLayer(LAYER_OBJECT);
+
+		// 씬에 액터를 저장합니다.
+		AddActor(player);
+	}
+
+	// 충돌 테스트를 위한 물체
+	{
+		// 액터를 생성합니다.
+		Actor* player = new Actor();
+
+		// 구체 콜라이더 컴포넌트를 생성합니다.
+		SphereCollider* collider = new SphereCollider();
+		// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
+		collider->SetRadius(25.0f);
+		collider->SetShowDebug(true);
+		// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
+		player->AddComponent(collider);
+
+		// 충돌체 매니저에 해당 충돌체를 저장합니다.
+		GET_SINGLE(CollisionManager)->AddCollider(collider);
+
+		// 위치를 설정합니다.
+		player->SetPos({ 400, 200 });
+		// 액터의 종류에 따라 레이어를 설정합니다.
 		player->SetLayer(LAYER_OBJECT);
 
 		// 씬에 액터를 저장합니다.
@@ -118,6 +158,9 @@ void DevScene::Update()
 	// Update() 함수가 실행되는 간격은 환경(성능)에 따라달라집니다.
 	// * 즉, 모든 컴퓨터에서 동일한 속도로 이동시키기 위해 이전 프레임에서 현재 프레임까지의 경과시간을 이용합니다.
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+
+	// 충돌체 매니저를 업데이트 해줍니다.
+	GET_SINGLE(CollisionManager)->Update();
 
 	// * 2차원 벡터이므로 이중 for문을 통해 순회합니다.
 	for (const vector<Actor*>& actors : _actors)
