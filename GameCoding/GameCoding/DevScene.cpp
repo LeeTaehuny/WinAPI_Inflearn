@@ -13,6 +13,9 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "CollisionManager.h"
+#include "UI.h"
+#include "Button.h"
+#include "TestPanel.h"
 
 DevScene::DevScene()
 {
@@ -140,6 +143,15 @@ void DevScene::Init()
 		AddActor(player);
 	}
 
+	// UI test
+	{
+		// Button 객체를 생성합니다.
+		TestPanel* ui = new TestPanel();
+
+		// UI 배열에 저장해줍니다.
+		_uis.push_back(ui);
+	}
+
 	// BeginPlay() 함수는 게임 실행과 동시에 호출되는 함수입니다.
 	// * 일단 테스트를 위해 여기서 호출하도록 하겠습니다.
 
@@ -150,6 +162,13 @@ void DevScene::Init()
 		{
 			actor->BeginPlay();
 		}
+	}
+
+	// _uis 배열을 순회하며 UI들을 초기화 해줍니다.
+	for (UI* ui : _uis)
+	{
+		// UI를 초기화합니다.
+		ui->BeginPlay();
 	}
 }
 
@@ -170,6 +189,12 @@ void DevScene::Update()
 			actor->Tick();
 		}
 	}
+
+	// _uis 배열을 순회하며 UI들을 업데이트 해줍니다.
+	for (UI* ui : _uis)
+	{
+		ui->Tick();
+	}
 }
 
 void DevScene::Render(HDC hdc)
@@ -182,6 +207,12 @@ void DevScene::Render(HDC hdc)
 		{
 			actor->Render(hdc);
 		}
+	}
+
+	// _uis 배열을 순회하며 UI들을 렌더 해줍니다.
+	for (UI* ui : _uis)
+	{
+		ui->Render(hdc);
 	}
 }
 

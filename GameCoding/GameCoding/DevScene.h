@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 class Actor;
+class UI;
 //class GameObject;
 
 // 개발용 씬으로 Scene를 상속받습니다.
@@ -26,6 +27,7 @@ public:
 	// * 레이어 별로 구분해서 사용하기 위해 2차원 벡터 컨테이너로 변경합니다.
 	vector<Actor*> _actors[LAYER_MAXCOUNT];
 
-	//GameObject* _go;
+	// UI들을 저장하기 위한 벡터 컨테이너를 선언합니다.
+	vector<UI*> _uis;
 };
 
