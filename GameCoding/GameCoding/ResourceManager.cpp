@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Flipbook.h"
+#include "Tilemap.h"
 
 ResourceManager::~ResourceManager()
 {
@@ -35,12 +36,19 @@ void ResourceManager::Clear()
 		SAFE_DELETE(item.second);
 	}
 
+	for (auto& item : _tilemaps)
+	{
+		SAFE_DELETE(item.second);
+	}
+
 	// _textures 배열을 비워줍니다.
 	_textures.clear();
 	// _sprites 배열을 비워줍니다.
 	_sprites.clear();
 	// _flipbooks 배열을 비워줍니다.
 	_flipbooks.clear();
+	// _tilemaps 배열을 비워줍니다.
+	_tilemaps.clear();
 }
 
 Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, uint32 transparent)
@@ -125,4 +133,33 @@ Flipbook* ResourceManager::CreateFlipbook(const wstring& key)
 
 	// 해당 애니메이션을 반환합니다.
 	return fb;
+}
+
+Tilemap* ResourceManager::CreateTilemap(const wstring& key)
+{
+	// 만약 타일맵 목록에서 키가 존재한다면?
+	if (_tilemaps.find(key) != _tilemaps.end())
+	{
+		// 해당 키값을 가진 타일맵을 반환합니다.
+		return _tilemaps[key];
+	}
+
+	// 타일맵이 없는 경우입니다.
+
+	// 새로운 타일맵을 생성합니다.
+	Tilemap* tm = new Tilemap();
+	// _tilemaps에 추가합니다.
+	_tilemaps[key] = tm;
+
+	// 해당 타일맵을 반환합니다.
+	return tm;
+}
+
+void ResourceManager::SaveTilemap(const wstring& key, const wstring& path)
+{
+}
+
+Tilemap* ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
+{
+	return nullptr;
 }

@@ -15,7 +15,8 @@
 #include "CollisionManager.h"
 #include "UI.h"
 #include "Button.h"
-#include "TestPanel.h"
+#include "TilemapActor.h"
+#include "Tilemap.h"
 
 DevScene::DevScene()
 {
@@ -31,6 +32,9 @@ void DevScene::Init()
 {
 	// 씬에 필요한 텍스쳐들을 불러옵니다.
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Stage01", L"Sprite\\Map\\Stage01.bmp");
+
+	GET_SINGLE(ResourceManager)->LoadTexture(L"Tile", L"Sprite\\Map\\Tile.bmp", RGB(128, 128, 128));
+
 	//GET_SINGLE(ResourceManager)->LoadTexture(L"Sword", L"Sprite\\Item\\Sword.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"Potion", L"Sprite\\UI\\Mp.bmp");
 	GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"Sprite\\Player\\PlayerDown.bmp", RGB(128, 128, 128));
@@ -43,6 +47,10 @@ void DevScene::Init()
 
 	// 씬에 필요한 스프라이트들을 생성합니다.
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Stage01", GET_SINGLE(ResourceManager)->GetTexture(L"Stage01"));
+
+	GET_SINGLE(ResourceManager)->CreateSprite(L"TileO", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 0, 0, 48, 48);
+	GET_SINGLE(ResourceManager)->CreateSprite(L"TileX", GET_SINGLE(ResourceManager)->GetTexture(L"Tile"), 48, 0, 48, 48);
+
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 0, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Start_On", GET_SINGLE(ResourceManager)->GetTexture(L"Start"), 150, 0, 150, 150);
 	GET_SINGLE(ResourceManager)->CreateSprite(L"Edit_Off", GET_SINGLE(ResourceManager)->GetTexture(L"Edit"), 0, 0, 150, 150);
@@ -100,16 +108,16 @@ void DevScene::Init()
 		// 액터를 생성합니다.
 		Player* player = new Player();
 		
-		// 구체 콜라이더 컴포넌트를 생성합니다.
-		SphereCollider* collider = new SphereCollider();
-		// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
-		collider->SetRadius(50.0f);
-		collider->SetShowDebug(true);
-		// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
-		player->AddComponent(collider);
+		//// 구체 콜라이더 컴포넌트를 생성합니다.
+		//SphereCollider* collider = new SphereCollider();
+		//// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
+		//collider->SetRadius(50.0f);
+		//collider->SetShowDebug(true);
+		//// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
+		//player->AddComponent(collider);
 
-		// 충돌체 매니저에 해당 충돌체를 저장합니다.
-		GET_SINGLE(CollisionManager)->AddCollider(collider);
+		//// 충돌체 매니저에 해당 충돌체를 저장합니다.
+		//GET_SINGLE(CollisionManager)->AddCollider(collider);
 
 		// 액터의 종류에 따라 레이어를 설정합니다.
 		player->SetLayer(LAYER_OBJECT);
@@ -119,129 +127,73 @@ void DevScene::Init()
 	}
 
 	// 충돌 테스트를 위한 물체
+	//{
+	//	// 액터를 생성합니다.
+	//	Actor* player = new Actor();
+
+	//	// 구체 콜라이더 컴포넌트를 생성합니다.
+	//	SphereCollider* collider = new SphereCollider();
+	//	// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
+	//	collider->SetRadius(25.0f);
+	//	collider->SetShowDebug(true);
+	//	// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
+	//	player->AddComponent(collider);
+
+	//	// 충돌체 매니저에 해당 충돌체를 저장합니다.
+	//	GET_SINGLE(CollisionManager)->AddCollider(collider);
+
+	//	// 위치를 설정합니다.
+	//	player->SetPos({ 400, 200 });
+	//	// 액터의 종류에 따라 레이어를 설정합니다.
+	//	player->SetLayer(LAYER_OBJECT);
+
+	//	// 씬에 액터를 저장합니다.
+	//	AddActor(player);
+	//}
+
+	// Tilemap
 	{
-		// 액터를 생성합니다.
-		Actor* player = new Actor();
+		TilemapActor* actor = new TilemapActor();
+		AddActor(actor);
 
-		// 구체 콜라이더 컴포넌트를 생성합니다.
-		SphereCollider* collider = new SphereCollider();
-		// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
-		collider->SetRadius(25.0f);
-		collider->SetShowDebug(true);
-		// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
-		player->AddComponent(collider);
+		_tilemapActor = actor;
 
-		// 충돌체 매니저에 해당 충돌체를 저장합니다.
-		GET_SINGLE(CollisionManager)->AddCollider(collider);
-
-		// 위치를 설정합니다.
-		player->SetPos({ 400, 200 });
-		// 액터의 종류에 따라 레이어를 설정합니다.
-		player->SetLayer(LAYER_OBJECT);
-
-		// 씬에 액터를 저장합니다.
-		AddActor(player);
-	}
-
-	// UI test
-	{
-		// Button 객체를 생성합니다.
-		TestPanel* ui = new TestPanel();
-
-		// UI 배열에 저장해줍니다.
-		_uis.push_back(ui);
-	}
-
-	// BeginPlay() 함수는 게임 실행과 동시에 호출되는 함수입니다.
-	// * 일단 테스트를 위해 여기서 호출하도록 하겠습니다.
-
-	// * 2차원 벡터이므로 이중 for문을 통해 순회합니다.
-	for (const vector<Actor*>& actors : _actors)
-	{
-		for (Actor* actor : actors)
+		// 실제 타일맵에 대한 정보
 		{
-			actor->BeginPlay();
+			// 타일 맵을 생성합니다.
+			auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
+			// 타일 맵의 크기를 설정합니다.
+			tm->SetMapSize({ 63, 43 });
+			// 타일 크기를 설정합니다.
+			tm->SetTileSize(48);
+
+			// 타일맵 액터에 타일맵에 대한 정보를 넘겨줍니다.
+			_tilemapActor->SetTilemap(tm);
+			// 출력하겠다고 설정합니다.
+			_tilemapActor->SetShowDebug(true);
 		}
 	}
 
-	// _uis 배열을 순회하며 UI들을 초기화 해줍니다.
-	for (UI* ui : _uis)
-	{
-		// UI를 초기화합니다.
-		ui->BeginPlay();
-	}
+	Super::Init();
 }
 
 void DevScene::Update()
 {
+	Super::Update();
+
 	// Update() 함수가 실행되는 간격은 환경(성능)에 따라달라집니다.
 	// * 즉, 모든 컴퓨터에서 동일한 속도로 이동시키기 위해 이전 프레임에서 현재 프레임까지의 경과시간을 이용합니다.
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
-
-	// 충돌체 매니저를 업데이트 해줍니다.
-	GET_SINGLE(CollisionManager)->Update();
-
-	// * 2차원 벡터이므로 이중 for문을 통해 순회합니다.
-	for (const vector<Actor*>& actors : _actors)
-	{
-		for (Actor* actor : actors)
-		{
-			actor->Tick();
-		}
-	}
-
-	// _uis 배열을 순회하며 UI들을 업데이트 해줍니다.
-	for (UI* ui : _uis)
-	{
-		ui->Tick();
-	}
 }
 
 void DevScene::Render(HDC hdc)
 {
-	// 액터를 렌더합니다.
-	// * 2차원 벡터이므로 이중 for문을 통해 순회합니다.
-	for (const vector<Actor*>& actors : _actors)
-	{
-		for (Actor* actor : actors)
-		{
-			actor->Render(hdc);
-		}
-	}
+	Super::Render(hdc);
 
-	// _uis 배열을 순회하며 UI들을 렌더 해줍니다.
-	for (UI* ui : _uis)
-	{
-		ui->Render(hdc);
-	}
+
 }
 
-void DevScene::AddActor(Actor* actor)
+void DevScene::Clear()
 {
-	// 만약 액터가 존재하지 않는다면?
-	if (actor == nullptr)
-	{
-		// 종료합니다.
-		return;
-	}
 
-	// 액터가 존재하는 경우입니다.
-	// * 액터의 레이어 타입에 맞는 목록에 해당 액터를 추가합니다.
-	_actors[actor->GetLayer()].push_back(actor);
-}
-
-void DevScene::RemoveActor(Actor* actor)
-{
-	// 만약 액터가 존재하지 않는다면?
-	if (actor == nullptr)
-	{
-		// 종료합니다.
-		return;
-	}
-
-	// 액터 레이어와 일치하는 목록을 받아옵니다.
-	vector<Actor*>& v = _actors[actor->GetLayer()];
-
-	// 목록에서 해당 액터를 제거합니다.
-	v.erase(std::remove(v.begin(), v.end(), actor));
 }

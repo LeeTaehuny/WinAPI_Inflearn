@@ -4,6 +4,7 @@ class ResourceBase;
 class Texture;
 class Sprite;
 class Flipbook;
+class Tilemap;
 
 class ResourceManager
 {
@@ -38,6 +39,15 @@ public:
 	// * 애니메이션별로 설정할 값들이 너무 다르기 때문에 객체만 생성하여 리턴해주는 방식으로 구현합니다.
 	Flipbook* CreateFlipbook(const wstring& key);
 
+	// 특정 키에 해당하는 타일맵을 반환하는 함수를 정의합니다.
+	Tilemap* GetTilemap(const wstring& key) { return _tilemaps[key]; }
+	// 특정 키에 해당하는 타일맵을 생성하기 위한 함수를 선언합니다.
+	Tilemap* CreateTilemap(const wstring& key);
+
+	// 타일맵을 저장 / 로드하기 위한 함수를 선언합니다.
+	void SaveTilemap(const wstring& key, const wstring& path);
+	Tilemap* LoadTilemap(const wstring& key, const wstring& path);
+
 private:
 	// 윈도우 핸들 번호를 저장할 변수를 선언합니다.
 	HWND _hWnd = {};
@@ -51,5 +61,8 @@ private:
 	unordered_map<wstring, Sprite*> _sprites;
 	// (키값[파일경로], 리소스 객체) 형태로 Flipbook 객체들을 정렬하지 않고 저장하는 컨테이너를 선언합니다.
 	unordered_map<wstring, Flipbook*> _flipbooks;
+
+	// (키값[파일경로], 리소스 객체) 형태로 Tilemap 객체들을 정렬하지 않고 저장하는 컨테이너를 선언합니다.
+	unordered_map<wstring, Tilemap*> _tilemaps;
 };
 
