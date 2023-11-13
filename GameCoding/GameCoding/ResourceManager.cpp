@@ -157,9 +157,33 @@ Tilemap* ResourceManager::CreateTilemap(const wstring& key)
 
 void ResourceManager::SaveTilemap(const wstring& key, const wstring& path)
 {
+	// 키에 해당하는 타일맵을 받아옵니다.
+	Tilemap* tm = GetTilemap(key);
+	// 전체 경로를 설정합니다.
+	fs::path fullPath = _resourcePath / path;
+
+	// 전체 경로 위치에 파일을 저장합니다.
+	tm->SaveFile(fullPath);
 }
 
 Tilemap* ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
 {
-	return nullptr;
+	// 타일맵 포인터 변수를 선언합니다.
+	Tilemap* tm = nullptr;
+	// 만약 tilemaps에 키 값에 해당하는 타일맵이 없다면?
+	if (_tilemaps.find(key) == _tilemaps.end())
+	{
+		// 새로운 타일맵을 추가합니다.
+		_tilemaps[key] = new Tilemap();
+	}
+
+	// 위에서 생성한 타일맵 포인터 변수에 찾은(생성한) 타일맵을 넣어줍니다.
+	tm = _tilemaps[key];
+
+	// 전체 경로를 설정합니다.
+	fs::path fullPath = _resourcePath / path;
+	// 전체 경로 위치에 있는 파일을 불러옵니다.
+	tm->LoadFile(fullPath);
+
+	return tm;
 }

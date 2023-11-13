@@ -184,6 +184,16 @@ void DevScene::Update()
 	// Update() 함수가 실행되는 간격은 환경(성능)에 따라달라집니다.
 	// * 즉, 모든 컴퓨터에서 동일한 속도로 이동시키기 위해 이전 프레임에서 현재 프레임까지의 경과시간을 이용합니다.
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+
+	// Save & Load TEST
+	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Q))
+	{
+		GET_SINGLE(ResourceManager)->SaveTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
+	}
+	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::E))
+	{
+		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap01.txt");
+	}
 }
 
 void DevScene::Render(HDC hdc)
