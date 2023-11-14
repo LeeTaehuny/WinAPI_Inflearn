@@ -17,6 +17,8 @@
 #include "Button.h"
 #include "TilemapActor.h"
 #include "Tilemap.h"
+#include "Sound.h"
+#include "SoundManager.h"
 
 DevScene::DevScene()
 {
@@ -107,71 +109,65 @@ void DevScene::Init()
 	{
 		// 액터를 생성합니다.
 		Player* player = new Player();
+		player->SetPos({ 100, 100 });
+
+		BoxCollider* collider = new BoxCollider();
+		collider->SetSize({ 100, 100 });
 		
-		//// 구체 콜라이더 컴포넌트를 생성합니다.
-		//SphereCollider* collider = new SphereCollider();
-		//// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
-		//collider->SetRadius(50.0f);
-		//collider->SetShowDebug(true);
-		//// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
-		//player->AddComponent(collider);
+		GET_SINGLE(CollisionManager)->AddCollider(collider);
+		player->AddComponent(collider);
 
-		//// 충돌체 매니저에 해당 충돌체를 저장합니다.
-		//GET_SINGLE(CollisionManager)->AddCollider(collider);
-
-		// 액터의 종류에 따라 레이어를 설정합니다.
-		player->SetLayer(LAYER_OBJECT);
-
-		// 씬에 액터를 저장합니다.
 		AddActor(player);
 	}
 
 	// 충돌 테스트를 위한 물체
-	//{
-	//	// 액터를 생성합니다.
-	//	Actor* player = new Actor();
+	{
+		// 액터를 생성합니다.
+		Actor* test = new Actor();
+		test->SetLayer(LAYER_OBJECT);
+		test->SetPos({ 300, 200 });
+		BoxCollider* collider = new BoxCollider();
+		collider->SetSize({ 100, 100 });
 
-	//	// 구체 콜라이더 컴포넌트를 생성합니다.
-	//	SphereCollider* collider = new SphereCollider();
-	//	// 구체 콜라이더 컴포넌트의 반지름 및 디버그 유무를 세팅합니다.
-	//	collider->SetRadius(25.0f);
-	//	collider->SetShowDebug(true);
-	//	// 구체 콜라이더 컴포넌트를 플레이어에 추가합니다.
-	//	player->AddComponent(collider);
+		// 충돌체 매니저에 해당 충돌체를 저장합니다.
+		GET_SINGLE(CollisionManager)->AddCollider(collider);
+		test->AddComponent(collider);
 
-	//	// 충돌체 매니저에 해당 충돌체를 저장합니다.
-	//	GET_SINGLE(CollisionManager)->AddCollider(collider);
-
-	//	// 위치를 설정합니다.
-	//	player->SetPos({ 400, 200 });
-	//	// 액터의 종류에 따라 레이어를 설정합니다.
-	//	player->SetLayer(LAYER_OBJECT);
-
-	//	// 씬에 액터를 저장합니다.
-	//	AddActor(player);
-	//}
+		// 씬에 액터를 저장합니다.
+		AddActor(test);
+	}
 
 	// Tilemap
 	{
 		TilemapActor* actor = new TilemapActor();
-		AddActor(actor);
+		//AddActor(actor);
 
-		_tilemapActor = actor;
+		//_tilemapActor = actor;
 
 		// 실제 타일맵에 대한 정보
 		{
-			// 타일 맵을 생성합니다.
-			auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
-			// 타일 맵의 크기를 설정합니다.
-			tm->SetMapSize({ 63, 43 });
-			// 타일 크기를 설정합니다.
-			tm->SetTileSize(48);
-
-			// 타일맵 액터에 타일맵에 대한 정보를 넘겨줍니다.
-			_tilemapActor->SetTilemap(tm);
-			// 출력하겠다고 설정합니다.
-			_tilemapActor->SetShowDebug(true);
+			//// 타일 맵을 생성합니다.
+			//auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
+			//// 타일 맵의 크기를 설정합니다.
+			//tm->SetMapSize({ 63, 43 });
+			//// 타일 크기를 설정합니다.
+			//tm->SetTileSize(48);
+			//
+			//// 타일맵 액터에 타일맵에 대한 정보를 넘겨줍니다.
+			//_tilemapActor->SetTilemap(tm);
+			//// 출력하겠다고 설정합니다.
+			//_tilemapActor->SetShowDebug(true);
 		}
+	}
+	
+	// Sound
+	{
+		// 사운드를 리소스 매니저에 로드합니다.
+		GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
+
+		// 리소스 매니저에서 저장된 사운드를 가져와 플레이합니다.
+		Sound* sound = GET_SINGLE(ResourceManager)->GetSound(L"BGM");
+		sound->Play(true);
 	}
 
 	Super::Init();

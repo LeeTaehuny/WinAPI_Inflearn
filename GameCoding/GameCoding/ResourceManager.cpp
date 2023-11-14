@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Flipbook.h"
 #include "Tilemap.h"
+#include "Sound.h"
 
 ResourceManager::~ResourceManager()
 {
@@ -186,4 +187,26 @@ Tilemap* ResourceManager::LoadTilemap(const wstring& key, const wstring& path)
 	tm->LoadFile(fullPath);
 
 	return tm;
+}
+
+Sound* ResourceManager::LoadSound(const wstring& key, const wstring& path)
+{
+	// 이미 로드할 사운드가 존재한다면 해당 사운드를 반환합니다.
+	if (_sounds.find(key) != _sounds.end())
+	{
+		return _sounds[key];
+	}
+
+	// 사운드가 _sounds에 존재하지 않는 상황입니다.
+	// 전체 경로를 설정합니다.
+	fs::path fullPath = _resourcePath / path;
+
+	// 사운드 객체를 생성합니다.
+	Sound* sound = new Sound();
+	// 사운드 객체의 wave 파일을 로드합니다.
+	sound->LoadWave(fullPath);
+	// _sounds에 추가합니다.
+	_sounds[key] = sound;
+
+	return sound;
 }

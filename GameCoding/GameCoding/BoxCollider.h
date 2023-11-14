@@ -20,6 +20,9 @@ public:
 	// 사각형의 크기를 설정하기 위한 함수를 정의합니다.
 	void SetSize(Vec2 size) { _size = size; }
 
+	// RECT(콜라이더의 영역)를 반환하기 위한 함수를 선언합니다.
+	RECT GetRect();
+
 private:
 	// 크기를 저장하기 위한 변수를 선언합니다.
 	Vec2 _size = {};

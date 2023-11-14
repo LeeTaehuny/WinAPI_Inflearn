@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 
 // 생성자 함수를 정의합니다.
 Game::Game()
@@ -51,20 +52,16 @@ void Game::Init(HWND hWnd)
 
 	// ResourceManager의 객체를 초기화합니다.
 	GET_SINGLE(ResourceManager)->Init(_hWnd, fs::path(L"C:\\Study\\git\\WinAPI_Inflearn\\GameCoding\\Resources\\"));
-
-
 	// TimeManager의 객체를 초기화합니다.
 	GET_SINGLE(TimeManager)->Init();
-	
 	// InputManager의 객체를 초기화합니다.
 	GET_SINGLE(InputManager)->Init(hWnd);
-
 	// SceneManager의 객체를 초기화합니다.
 	GET_SINGLE(SceneManager)->Init();
+	// SoundManager의 객체를 초기화합니다.
+	GET_SINGLE(SoundManager)->Init(hWnd);
 	// Default 씬을 설정합니다.
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
-
-
 }
 
 // 업데이트 함수를 정의합니다.

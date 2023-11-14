@@ -5,6 +5,7 @@ class Texture;
 class Sprite;
 class Flipbook;
 class Tilemap;
+class Sound;
 
 class ResourceManager
 {
@@ -48,6 +49,11 @@ public:
 	void SaveTilemap(const wstring& key, const wstring& path);
 	Tilemap* LoadTilemap(const wstring& key, const wstring& path);
 
+	// 특정 키에 해당하는 사운드를 반환하는 함수를 정의합니다.
+	Sound* GetSound(const wstring& key) { return _sounds[key]; }
+	// 특정 경로에 존재하는 사운드를 로드하기 위한 함수를 선언합니다.
+	Sound* LoadSound(const wstring& key, const wstring& path);
+
 private:
 	// 윈도우 핸들 번호를 저장할 변수를 선언합니다.
 	HWND _hWnd = {};
@@ -64,5 +70,7 @@ private:
 
 	// (키값[파일경로], 리소스 객체) 형태로 Tilemap 객체들을 정렬하지 않고 저장하는 컨테이너를 선언합니다.
 	unordered_map<wstring, Tilemap*> _tilemaps;
+	// (키값[파일경로], 리소스 객체) 형태로 Sound 객체들을 정렬하지 않고 저장하는 컨테이너를 선언합니다.
+	unordered_map<wstring, Sound*> _sounds;
 };
 

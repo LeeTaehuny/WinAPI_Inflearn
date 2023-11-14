@@ -5,6 +5,7 @@
 #include "Flipbook.h"
 #include "TimeManager.h"
 #include "CameraComponent.h"
+#include "BoxCollider.h"
 
 
 Player::Player()
@@ -86,10 +87,67 @@ void Player::Render(HDC hdc)
 
 void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 {
+	// 박스 콜라이더 형식으로 형변환합니다.
+	BoxCollider* b1 = dynamic_cast<BoxCollider*>(collider);
+	BoxCollider* b2 = dynamic_cast<BoxCollider*>(other);
 
+	if (b1 == nullptr || b2 == nullptr) return;
+
+	// 충돌한 영역만큼 뒤로 미루기 위한 함수를 호출합니다.
+	AdjustCollisionPos(b1, b2);
 }
 
 void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
+	int k = 0;
+}
 
+void Player::TickGravity()
+{
+}
+
+void Player::AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2)
+{
+	// 각각의 영역을 가져옵니다.
+	RECT r1 = b1->GetRect();
+	RECT r2 = b2->GetRect();
+
+	Vec2 pos = GetPos();
+
+	// 각각의 영역이 충돌한 결과 충돌 영역을 추출합니다.
+	RECT intersect = {};
+	if (::IntersectRect(&intersect, &r1, &r2))
+	{
+		// 충돌한 영역의 어느 면이 길이가 더 긴지 체크합니다.
+		int32 w = intersect.right - intersect.left;
+		int32 h = intersect.bottom - intersect.top;
+
+		// 만약 가로 길이가 더 크다면?
+		if (w > h)
+		{
+			// 선분의 길이에 따라 다시 밀어줍니다.
+			if (intersect.top == r2.top)
+			{
+				pos.y -= h * 2;
+			}
+			else
+			{
+				pos.y += h * 2;
+			}
+		}
+		else
+		{
+			if (intersect.left == r2.left)
+			{
+				pos.x -= w * 2;
+			}
+			else
+			{
+				pos.x += w * 2;
+			}
+		}
+	}
+
+	// 밀쳐진 위치를 다시 적용합니다.
+	SetPos(pos);
 }

@@ -37,3 +37,9 @@ namespace fs = std::filesystem;
 
 // TransparentBlt()를 사용하기 위한 라이브러리 추가
 #pragma comment(lib, "msimg32.lib")
+
+// 사운드
+#include <mmsystem.h>
+#include <dsound.h>
+#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "dsound.lib")

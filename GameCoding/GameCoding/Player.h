@@ -2,6 +2,7 @@
 #include "FlipbookActor.h"
 
 class Flipbook;
+class BoxCollider;
 
 class Player : public FlipbookActor
 {
@@ -23,6 +24,11 @@ public:
 	// ** OnComponentEndOverlap() : 충돌이 발생한 후 해당 영역을 벗어날 때 1회 호출되는 함수 
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
+
+private:
+	void TickGravity();
+	// 충돌한 영역 만큼 뒤로 밀쳐주기 위한 함수를 선언합니다.
+	void AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2);
 
 private:
 	// 애니메이션을 저장할 변수를 선언합니다.

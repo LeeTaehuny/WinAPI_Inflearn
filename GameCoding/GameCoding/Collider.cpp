@@ -32,53 +32,15 @@ bool Collider::CheckCollision(Collider* other)
 
 bool Collider::CheckCollisionBox2Box(BoxCollider* b1, BoxCollider* b2)
 {
-	// b1 충돌체의 위치와 크기 정보를 받아옵니다.
-	Vec2 p1 = b1->GetOwner()->GetPos();
-	Vec2 s1 = b1->GetSize();
+	// b1충돌체와 b2충돌체의 영역을 받아옵니다.
+	RECT r1 = b1->GetRect();
+	RECT r2 = b2->GetRect();
 
-	// b2 충돌체의 위치와 크기 정보를 받아옵니다.
-	Vec2 p2 = b2->GetOwner()->GetPos();
-	Vec2 s2 = b2->GetSize();
+	// 충돌 영역을 저장하기 위한 RECT를 선언합니다.
+	RECT intersect = {};
 
-	// b1 충돌체의 영역(x, y좌표 범위)을 구해줍니다.
-	float minX_1 = p1.x - s1.x / 2;
-	float maxX_1 = p1.x + s1.x / 2;
-	float minY_1 = p1.y - s1.y / 2;
-	float maxY_1 = p1.y + s1.y / 2;
-
-	// b2 충돌체의 영역(x, y좌표 범위)을 구해줍니다.
-	float minX_2 = p2.x - s2.x / 2;
-	float maxX_2 = p2.x + s2.x / 2;
-	float minY_2 = p2.y - s2.y / 2;
-	float maxY_2 = p2.y + s2.y / 2;
-
-	// 충돌이 일어날 수 없는 경우들을 제외합니다.
-	{
-		// b2의 오른쪽 X 좌표가 b1의 왼쪽 X 좌표보다 작은 경우
-		if (maxX_2 < minX_1)
-		{
-			return false;
-		}
-		// b1의 오른쪽 X 좌표가 b2의 왼쪽 X 좌표보다 작은 경우
-		if (maxX_1 < minX_2)
-		{
-			return false;
-		}
-
-		// b2의 위쪽 Y 좌표가 b1의 아래쪽 Y 좌표보다 작은 경우
-		if (maxY_2 < minY_1)
-		{
-			return false;
-		}
-		// b1의 위쪽 Y 좌표가 b2의 아래쪽 Y 좌표보다 작은 경우
-		if (maxY_1 < minY_2)
-		{
-			return false;
-		}
-	}
-
-	// 전부 아닌 경우라면?
-	return true;
+	// IntersectRect() : 충돌 결과를 boolean 값으로 반환 및 충돌 영역을 아웃 파라미터로 전달하는 함수 
+	return ::IntersectRect(&intersect, &r1, &r2);
 }
 
 bool Collider::CheckCollisionSphere2Box(SphereCollider* s1, BoxCollider* b2)
