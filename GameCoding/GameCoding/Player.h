@@ -26,6 +26,9 @@ public:
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
 private:
+	// 점프를 위한 함수를 선언합니다.
+	void Jump();
+	// 중력을 적용하기 위한 함수를 선언합니다.
 	void TickGravity();
 	// 충돌한 영역 만큼 뒤로 밀쳐주기 위한 함수를 선언합니다.
 	void AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2);
@@ -36,5 +39,16 @@ private:
 	Flipbook* _flipbookDown = nullptr;
 	Flipbook* _flipbookLeft = nullptr;
 	Flipbook* _flipbookRight = nullptr;
+
+private:
+	// 플레이어의 속도를 저장하기 위한 변수를 선언합니다.
+	Vec2 _speed = { };
+	// 중력 값을 저장하기 위한 변수를 선언합니다.
+	int32 _gravity = 1000;
+
+	// 땅을 밟고 있는지 체크하기 위한 변수를 선언합니다.
+	bool _onGround = false;
+	// 점프 중인지를 체크하기 위한 변수를 선언합니다.
+	bool _jumping = false;
 };
 

@@ -25,3 +25,11 @@ enum class ColliderType
 	Box,	// 0 = 사각형
 	Sphere, // 1 = 구체
 };
+
+// 누구와 충돌할지 체크하기 위한 레이어를 구분하기 위한 열거형을 정의합니다.
+enum COLLISION_LAYER_TYPE
+{
+	CLT_OBJECT,	// 오브젝트
+	CLT_GROUND,	// 배경(땅)
+	CLT_WALL,	// 벽
+};

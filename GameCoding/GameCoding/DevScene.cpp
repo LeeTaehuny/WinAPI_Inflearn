@@ -111,13 +111,54 @@ void DevScene::Init()
 		Player* player = new Player();
 		player->SetPos({ 100, 100 });
 
-		BoxCollider* collider = new BoxCollider();
-		collider->SetSize({ 100, 100 });
-		
-		GET_SINGLE(CollisionManager)->AddCollider(collider);
-		player->AddComponent(collider);
+		// 충돌 레이어 설정
+		{
+			// 콜라이더를 생성 및 크기를 조정합니다.
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 100, 100 });
+
+			// 콜리전 레이어 정보를 설정합니다.
+			// * 오브젝트로 설정
+			collider->SetCollisionLayer(CLT_OBJECT);
+
+			// 콜리전 플래그 정보를 설정합니다.
+			collider->ResetCollisionFlag();
+			collider->AddCollisionFlagLayer(CLT_GROUND);
+			//collider->AddCollisionFlagLayer(CLT_OBJECT);
+
+			// 충돌체 매니저에 해당 충돌체를 저장합니다.
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			player->AddComponent(collider);
+		}
+
 
 		AddActor(player);
+	}
+
+	// 충돌 테스트를 위한 물체
+	{
+		// 테스트용 액터를 생성합니다.
+		Actor* test = new Actor();
+		test->SetLayer(LAYER_OBJECT);
+		test->SetPos({ 200, 500 });
+
+		// 충돌 정보 설정
+		{
+			// 콜라이더를 생성 및 크기를 조정합니다.
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 10000, 100 });
+
+			// 콜리전 레이어 정보를 설정합니다.
+			// * 오브젝트로 설정
+			collider->SetCollisionLayer(CLT_GROUND);
+
+			// 충돌체 매니저에 해당 충돌체를 저장합니다.
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			test->AddComponent(collider);
+		}
+
+		// 씬에 액터를 저장합니다.
+		AddActor(test);
 	}
 
 	// 충돌 테스트를 위한 물체
@@ -126,12 +167,22 @@ void DevScene::Init()
 		Actor* test = new Actor();
 		test->SetLayer(LAYER_OBJECT);
 		test->SetPos({ 300, 200 });
-		BoxCollider* collider = new BoxCollider();
-		collider->SetSize({ 100, 100 });
 
-		// 충돌체 매니저에 해당 충돌체를 저장합니다.
-		GET_SINGLE(CollisionManager)->AddCollider(collider);
-		test->AddComponent(collider);
+		// 충돌 설정
+		{
+			// 콜라이더 생성 및 크기를 조정합니다.
+			BoxCollider* collider = new BoxCollider();
+			collider->SetSize({ 100, 100 });
+
+			// 콜리전 레이어 정보를 설정합니다.
+			// * 땅으로 설정
+			collider->SetCollisionLayer(CLT_OBJECT);
+
+			// 충돌체 매니저에 해당 충돌체를 저장합니다.
+			GET_SINGLE(CollisionManager)->AddCollider(collider);
+			test->AddComponent(collider);
+		}
+
 
 		// 씬에 액터를 저장합니다.
 		AddActor(test);

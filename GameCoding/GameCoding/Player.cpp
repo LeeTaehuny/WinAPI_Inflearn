@@ -45,24 +45,8 @@ void Player::Tick()
 
 	// TODO : 플레이어의 업데이트
 	
-	// 위로 이동
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
-	{
-		// 위치를 이동시켜줍니다.
-		_pos.y -= 200 * deltaTime;
-		// 위로 이동하는 애니메이션으로 설정합니다.
-		SetFlipbook(_flipbookUp);
-	}
-	// 아래로 이동
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::S))
-	{
-		// 위치를 이동시켜줍니다.
-		_pos.y += 200 * deltaTime;
-		// 위로 이동하는 애니메이션으로 설정합니다.
-		SetFlipbook(_flipbookDown);
-	}
 	// 왼쪽으로 이동
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
 	{
 		// 위치를 이동시켜줍니다.
 		_pos.x -= 200 * deltaTime;
@@ -77,6 +61,14 @@ void Player::Tick()
 		// 위로 이동하는 애니메이션으로 설정합니다.
 		SetFlipbook(_flipbookRight);
 	}
+	
+	// 점프
+	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
+	{
+		Jump();
+	}
+
+	TickGravity();
 }
 
 void Player::Render(HDC hdc)
@@ -95,15 +87,58 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 
 	// 충돌한 영역만큼 뒤로 미루기 위한 함수를 호출합니다.
 	AdjustCollisionPos(b1, b2);
+
+	// 우선 충돌했다면 땅에 존재하는 것으로 판별합니다.
+	_onGround = true;
 }
 
 void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
 {
-	int k = 0;
+	// 박스 콜라이더 형식으로 형변환합니다.
+	BoxCollider* b1 = dynamic_cast<BoxCollider*>(collider);
+	BoxCollider* b2 = dynamic_cast<BoxCollider*>(other);
+
+	if (b1 == nullptr || b2 == nullptr) return;
+
+	if (b2->GetCollisionLayerType() == CLT_GROUND)
+	{
+		_jumping = false;
+		_onGround = true;
+	}
+}
+
+void Player::Jump()
+{
+	// 이중점프 제한
+	if (_jumping) return;
+
+	_jumping = true;
+	_onGround = false;
+	_speed.y = -500;
 }
 
 void Player::TickGravity()
 {
+	// 물리 공식
+	// -> v = at
+	// -> s = vt
+
+	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+	if (deltaTime > 0.1f)
+	{
+		return;
+	}
+
+	// OnGround 변수가 false일 때만 작동시켜줍니다.
+	if (_onGround)
+	{
+		return;
+	}
+
+	// y의 속도를 증가시킵니다. (아래 방향으로 떨어지기 위함)
+	_speed.y += _gravity * deltaTime;
+	// 증가된 y값을 pos에 반영시켜줍니다.
+	_pos.y += _speed.y * deltaTime;
 }
 
 void Player::AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2)

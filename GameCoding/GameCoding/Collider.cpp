@@ -27,6 +27,17 @@ void Collider::Render(HDC hdc)
 
 bool Collider::CheckCollision(Collider* other)
 {
+	// 상대방의 레이어 타입을 반환받습니다.
+	uint32 layer = other->GetCollisionLayerType();
+
+	// 만약 현재 플래그에서 상대방의 레이어와 충돌이 일어나도록 설정되어있다면?
+	if (_collisionFlag & (1 << layer))
+	{
+		// 충돌했다고 처리합니다.
+		return true;
+	}
+
+	// 충돌하지 않았다고 처리합니다.
 	return false;
 }
 
@@ -67,4 +78,14 @@ bool Collider::CheckCollisionSphere2Sphere(SphereCollider* s1, SphereCollider* s
 	// * dist <= r1 + r2 : 충돌 O
 	// * dist > r1 + r2	 : 충돌 X
 	return dist <= r1 + r2;
+}
+
+void Collider::AddCollisionFlagLayer(COLLISION_LAYER_TYPE layer)
+{
+	_collisionFlag = _collisionFlag | (1 << layer);
+}
+
+void Collider::RemoveCollisionFlagLayer(COLLISION_LAYER_TYPE layer)
+{
+	_collisionFlag = _collisionFlag & ~(1 << layer);
 }

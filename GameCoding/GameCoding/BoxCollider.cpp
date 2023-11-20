@@ -57,6 +57,8 @@ void BoxCollider::Render(HDC hdc)
 
 bool BoxCollider::CheckCollision(Collider* other)
 {
+	if (!Super::CheckCollision(other)) return false;
+
 	// 다른 충돌체(other)의 타입별로 분기합니다.
 	switch (other->GetColliderType())
 	{
