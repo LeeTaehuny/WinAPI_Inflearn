@@ -40,32 +40,17 @@ void Player::Tick()
 	// 부모의 함수 내용을 불러옵니다.
 	Super::Tick();
 
-	// 프레임 시간을 받아옵니다.
-	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
-
-	// TODO : 플레이어의 업데이트
-	
-	// 왼쪽으로 이동
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
+	/** 플레이어의 상태에 따라 분기합니다. */
+	switch (_state)
 	{
-		// 위치를 이동시켜줍니다.
-		_pos.x -= 200 * deltaTime;
-		// 위로 이동하는 애니메이션으로 설정합니다.
-		SetFlipbook(_flipbookLeft);
-	}
-	// 오른쪽으로 이동
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
-	{
-		// 위치를 이동시켜줍니다.
-		_pos.x += 200 * deltaTime;
-		// 위로 이동하는 애니메이션으로 설정합니다.
-		SetFlipbook(_flipbookRight);
-	}
-	
-	// 점프
-	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
-	{
-		Jump();
+	case PlayerState::MoveGround:
+		TickInput();
+		TickMoveGround();
+		break;
+	case PlayerState::JumpFall:
+		TickInput();
+		TickJumpFall();
+		break;
 	}
 
 	TickGravity();
@@ -88,8 +73,11 @@ void Player::OnComponentBeginOverlap(Collider* collider, Collider* other)
 	// 충돌한 영역만큼 뒤로 미루기 위한 함수를 호출합니다.
 	AdjustCollisionPos(b1, b2);
 
-	// 우선 충돌했다면 땅에 존재하는 것으로 판별합니다.
-	_onGround = true;
+	// 충돌한 대상이 땅이라면?
+	if (b2->GetCollisionLayerType() == CLT_GROUND)
+	{
+		SetState(PlayerState::MoveGround);
+	}
 }
 
 void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
@@ -102,18 +90,39 @@ void Player::OnComponentEndOverlap(Collider* collider, Collider* other)
 
 	if (b2->GetCollisionLayerType() == CLT_GROUND)
 	{
-		_jumping = false;
-		_onGround = true;
+
 	}
+}
+
+void Player::SetState(PlayerState state)
+{
+	// 현재 상태와 이전 상태가 같으면 리턴합니다.
+	if (_state == state)
+		return;
+
+	// 변경할 state에 대해 처리할 부분이 있으면 switch문을 이용해 처리해주도록 합니다.
+	// + 추가로 상태에 대한 디버깅을 할 때 여기서만 하면 되므로 편리합니다.
+	switch (state)
+	{
+	case PlayerState::MoveGround:
+		_speed.y = 0;
+		break;
+	case PlayerState::JumpFall:
+		break;
+	}
+
+	// 현재 상태에 전달받은 상태를 반영해줍니다.
+	_state = state;
 }
 
 void Player::Jump()
 {
-	// 이중점프 제한
-	if (_jumping) return;
+	// 이중점프 제한 (플레이어의 상태가 점프 상태라면 리턴)
+	if (_state == PlayerState::JumpFall)
+		return;
 
-	_jumping = true;
-	_onGround = false;
+	// 플레이어의 현재 상태를 점프 상태로 변경합니다.
+	SetState(PlayerState::JumpFall);
 	_speed.y = -500;
 }
 
@@ -125,12 +134,6 @@ void Player::TickGravity()
 
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 	if (deltaTime > 0.1f)
-	{
-		return;
-	}
-
-	// OnGround 변수가 false일 때만 작동시켜줍니다.
-	if (_onGround)
 	{
 		return;
 	}
@@ -185,4 +188,41 @@ void Player::AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2)
 
 	// 밀쳐진 위치를 다시 적용합니다.
 	SetPos(pos);
+}
+
+void Player::TickMoveGround()
+{
+	// 점프는 땅에 있을 때만 가능합니다.
+	// * 점프 입력은 TickMoveGround() 함수 내부에서 받아줍니다.
+	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
+	{
+		Jump();
+	}
+}
+
+void Player::TickJumpFall()
+{
+}
+
+void Player::TickInput()
+{
+	// 프레임 시간을 받아옵니다.
+	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+
+	// 왼쪽으로 이동
+	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
+	{
+		// 위치를 이동시켜줍니다.
+		_pos.x -= 200 * deltaTime;
+		// 위로 이동하는 애니메이션으로 설정합니다.
+		SetFlipbook(_flipbookLeft);
+	}
+	// 오른쪽으로 이동
+	else if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
+	{
+		// 위치를 이동시켜줍니다.
+		_pos.x += 200 * deltaTime;
+		// 위로 이동하는 애니메이션으로 설정합니다.
+		SetFlipbook(_flipbookRight);
+	}
 }

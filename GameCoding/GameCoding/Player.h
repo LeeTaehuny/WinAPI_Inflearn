@@ -4,6 +4,13 @@
 class Flipbook;
 class BoxCollider;
 
+// 플레이어의 상태를 구분하기 위한 열거형을 선언합니다.
+enum class PlayerState
+{
+	MoveGround,
+	JumpFall,
+};
+
 class Player : public FlipbookActor
 {
 	using Super = FlipbookActor;
@@ -25,6 +32,11 @@ public:
 	virtual void OnComponentBeginOverlap(Collider* collider, Collider* other) override;
 	virtual void OnComponentEndOverlap(Collider* collider, Collider* other) override;
 
+public:
+	// 플레이어의 상태를 설정 & 반환하기 위한 함수들을 선언합니다.
+	void SetState(PlayerState state);
+	PlayerState GetState() { return _state; }
+
 private:
 	// 점프를 위한 함수를 선언합니다.
 	void Jump();
@@ -32,6 +44,15 @@ private:
 	void TickGravity();
 	// 충돌한 영역 만큼 뒤로 밀쳐주기 위한 함수를 선언합니다.
 	void AdjustCollisionPos(BoxCollider* b1, BoxCollider* b2);
+
+private:
+	// 플레이어의 상태에 따라 업데이트해주기 위한 함수를 선언합니다.
+	// * 주로 상태를 묶어주는 경우이므로 최상위 클래스에서 가상함수로 선언하는 것이 좋습니다.
+	virtual void TickMoveGround();
+	virtual void TickJumpFall();
+
+	// 공용으로 사용할 입력 함수를 선언합니다.
+	void TickInput();
 
 private:
 	// 애니메이션을 저장할 변수를 선언합니다.
@@ -46,9 +67,7 @@ private:
 	// 중력 값을 저장하기 위한 변수를 선언합니다.
 	int32 _gravity = 1000;
 
-	// 땅을 밟고 있는지 체크하기 위한 변수를 선언합니다.
-	bool _onGround = false;
-	// 점프 중인지를 체크하기 위한 변수를 선언합니다.
-	bool _jumping = false;
+	// 플레이어의 상태를 저장하기 위한 변수를 선언합니다.
+	PlayerState _state = PlayerState::JumpFall;
 };
 

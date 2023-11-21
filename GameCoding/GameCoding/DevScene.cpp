@@ -176,7 +176,7 @@ void DevScene::Init()
 
 			// 콜리전 레이어 정보를 설정합니다.
 			// * 땅으로 설정
-			collider->SetCollisionLayer(CLT_OBJECT);
+			collider->SetCollisionLayer(CLT_GROUND);
 
 			// 충돌체 매니저에 해당 충돌체를 저장합니다.
 			GET_SINGLE(CollisionManager)->AddCollider(collider);
